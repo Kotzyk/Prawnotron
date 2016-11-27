@@ -9,6 +9,7 @@ using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 
 namespace Prawnotron
 {
@@ -33,14 +34,17 @@ namespace Prawnotron
         static async Task<Ustawa> GetUstawaAsynch(string path)
         {
             Ustawa ustawa = null;
-            JsonConverter jsonConverter = new DataSetConverter();
-           JsonReader jsonReader = new BsonReader(File.OpenRead("Ustawa_2137.json"));
+            RemoveDatasetName("Ustawa_2137.json");
+            string ust_str = File.ReadAllText("Ustawa_2137.json");
+            JObject mp_result = JObject.Parse(ust_str);
+            JToken result = mp_result["data"];
+            ustawa = JsonConvert.DeserializeObject<Ustawa>(result.ToString());
+            
+            //poniżej do czytania z HTTP, powyżej do czytania z pliku Ustawa_2137.json
             HttpResponseMessage response = await client.GetAsync(path);
             if (response.IsSuccessStatusCode)
             {
-                RemoveDatasetName("Ustawa_2137.json");
-
-                jsonConverter.ReadJson(jsonReader,typeof(Ustawa), ustawa, new JsonSerializer());
+                
                 ustawa = await response.Content.ReadAsAsync<Ustawa>();
             }
             return ustawa;
