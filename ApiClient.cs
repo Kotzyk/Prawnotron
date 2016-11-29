@@ -13,9 +13,10 @@ using Newtonsoft.Json.Linq;
 
 namespace Prawnotron
 {
-    class ApiClient  
+    class ApiClient
     {
         static HttpClient client = new HttpClient();
+
         public ApiClient()
         {
             client.BaseAddress = new Uri("https://api-v3.mojepanstwo.pl/dane/dziennik_ustaw/");
@@ -23,34 +24,53 @@ namespace Prawnotron
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public static void RemoveDatasetName(string jsonPath, string dataset = "dziennik_ustaw.")
+        public static async Task<List<Ustawa>> szukajAsync(params string[] conditions)
+        {
+            string apiStr = client.BaseAddress.ToString();
+            StringBuilder sb = new StringBuilder(apiStr);
+            sb.Replace('/', '?', apiStr.Length - 1, 1);
+            foreach (string warunek in conditions)
+            {
+                //TODO: zrobić tak żeby pod {0} wstawiać nazwę zmiennej, a pod {1} jej wartość
+                sb.AppendFormat("&conditions[dziennik_ustaw.{0}]={1}", nameof(warunek), warunek);
+            }
+
+            HttpResponseMessage responseMessage = await client.GetAsync(sb.ToString());
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                //TODO: Tutaj wstawić metodę zapisująco - parsującą
+                //TODO: return lista ustaw do wyświetlenia w GUI
+            }
+
+            return null;
+        }
+
+        private static void RemoveDatasetName(string jsonPath, string dataset = "dziennik_ustaw.")
         {
             string text = File.ReadAllText(jsonPath);
             text = text.Replace(dataset, "");
             File.WriteAllText(jsonPath, text);
         }
-        //(Jeszcze) Nie do końca wiem co tu robię. Trochę ctrl+v z różnych rzeczy
-        //
-        static async Task<Ustawa> GetUstawaAsynch(string path)
+
+        private static async Task<Ustawa> GetUstawaAsynch(string path)
         {
-            Ustawa ustawa = null;
-            RemoveDatasetName("Ustawa_2137.json");
+            RemoveDatasetName(path);
+            //Ustawa ustawa = JsonConvert.DeserializeObject<Ustawa>(File.ReadAllText(path));
+
             string ust_str = File.ReadAllText("Ustawa_2137.json");
             JObject mp_result = JObject.Parse(ust_str);
             JToken result = mp_result["data"];
-            ustawa = JsonConvert.DeserializeObject<Ustawa>(result.ToString());
-            
-            //poniżej do czytania z HTTP, powyżej do czytania z pliku Ustawa_2137.json
+            //TO DZIAŁA, MAMY POPRAWNY OBIEKT KLASY USTAWA!!!
+            Ustawa ustawa = JsonConvert.DeserializeObject<Ustawa>(result.ToString());
+
+
+            //TODO: Piotrek, zrób zapis do pliku z
             HttpResponseMessage response = await client.GetAsync(path);
             if (response.IsSuccessStatusCode)
             {
-                
-                ustawa = await response.Content.ReadAsAsync<Ustawa>();
+                //zapis do pliku, obróbka i deserializacja do <Ustawa>
             }
             return ustawa;
-        } 
-        
-
-      
+        }
     }
 }
