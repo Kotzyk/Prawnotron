@@ -1,0 +1,61 @@
+{
+	"Dataobject": [
+		{
+			"id": "11314",
+			"dataset": "dziennik_ustaw",
+			"url": "https:\/\/api-v3.mojepanstwo.pl\/dane\/dziennik_ustaw\/11314",
+			"mp_url": "https:\/\/mojepanstwo.pl\/dane\/dziennik_ustaw\/11314",
+			"schema_url": "https:\/\/api-v3.mojepanstwo.pl\/schemas\/dane\/dziennik_ustaw.json",
+			"global_id": "44346727",
+			"slug": "ustawa-o-przeciwdzialaniu-narkomanii",
+			"score": null,
+			"data": {
+				"dziennik_ustaw.poz": 1485,
+				"dziennik_ustaw.nr": 179,
+				"dziennik_ustaw.isap_data_obowiazywania": "2005-10-04",
+				"dziennik_ustaw.isap_data_wydania": "2005-07-29",
+				"dziennik_ustaw.konstytucja": "0",
+				"dziennik_ustaw.isap_plik_id": "14592",
+				"dziennik_ustaw.isap_organ_zobowiazany_str": "MIN. SPRAWIEDLIWO\u015aCI<br\/>MIN. W\u0141A\u015aCIWY DS O\u015aWIATY I WYCHOWANIA<br\/>MIN. W\u0141A\u015aCIWY DS ZDROWIA<br\/>RADA MINISTR\u00d3W",
+				"dziennik_ustaw.data_publikacji": "2005-09-19",
+				"dziennik_ustaw.isap_status_str": "akt posiada tekst jednolity",
+				"dziennik_ustaw.data_wydania": "2005-07-29",
+				"dziennik_ustaw.id": "11314",
+				"dziennik_ustaw.projekt_id": "",
+				"dziennik_ustaw.pierwotny": "1",
+				"dziennik_ustaw.isap_organ_wydajacy_str": "SEJM",
+				"dziennik_ustaw.isap_organ_uprawniony_str": "",
+				"dziennik_ustaw.data_wejscia_w_zycie": "2005-10-04",
+				"dziennik_ustaw.opis": "",
+				"dziennik_ustaw.autor_nazwa": "Sejm",
+				"dziennik_ustaw.label_html": "<span class=\"_tn\">Ustawa<\/span> z dnia <span class=\"_ds\" value=\"2005-07-29\">29 lipca 2005 r.<\/span>",
+				"dziennik_ustaw.autorzy_html": "",
+				"dziennik_ustaw.zrodlo": "DzU",
+				"dziennik_ustaw.sygnatura": "Dz.U. z 2005 r. Nr 179, poz. 1485",
+				"dziennik_ustaw.isap_data_ogloszenia": "2005-09-19",
+				"dziennik_ustaw.status_id": "1",
+				"dziennik_ustaw.label": "Ustawa z dnia 29 lipca 2005 r.",
+				"dziennik_ustaw.tytul_skrocony": "o przeciwdzia\u0142aniu narkomanii",
+				"dziennik_ustaw.isap_id": "52821",
+				"dziennik_ustaw.kodeks": "0",
+				"dziennik_ustaw.liczba_zalacznikow": 0,
+				"dziennik_ustaw.typ_nazwa": "Ustawa",
+				"dziennik_ustaw.autor_id": "0",
+				"dziennik_ustaw.typ_id": "1",
+				"dziennik_ustaw.tytul": "Ustawa z dnia 29 lipca 2005 r. o przeciwdzia\u0142aniu narkomanii",
+				"dziennik_ustaw.isap_plik_dokument_id": "133470",
+				"dziennik_ustaw.isap_data_wejscia_w_zycie": "2005-10-04",
+				"dziennik_ustaw.isap_uwagi_str": "",
+				"dziennik_ustaw.rok": 2005,
+				"dziennik_ustaw.dokument_id": "351873",
+				"dziennik_ustaw.opis_skrot": ""
+			}
+		}
+	],
+	"Count": 1,
+	"Took": 30,
+	"Links": {
+		"self":
+			"https:\/\/api-v3.mojepanstwo.pl\/dane\/dziennik_ustaw?conditions%5Bdziennik_ustaw.poz%5D=1485&conditions%5Bdziennik_ustaw.nr%5D=179&conditions%5Bdziennik_ustaw.rok%5D=2005&_type=objects"
+	}
+}
