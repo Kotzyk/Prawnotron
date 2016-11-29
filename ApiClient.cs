@@ -75,5 +75,11 @@ namespace Prawnotron
             }
             return ustawa;
         }
+        private static async Task GetContentAsync(Ustawa ustawa){
+            HttpResponseMessage responseMessage;
+            FileStream trescStream = new File.Create("tresc.html");
+            StringBuilder sb = new StringBuilder("https://docs.mojepanstwo.pl/htmlex/");
+            
+        }
     }
 }
