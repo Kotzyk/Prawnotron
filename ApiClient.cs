@@ -26,6 +26,8 @@ namespace Prawnotron
 
         public static async Task<List<Ustawa>> szukajAsync(params string[] conditions)
         {
+            //przykład wyszukiwania konkretnej ustawy znając sygnaturę Dz.U (Ustawa o przeciwdziałaniu narkomanii, HTML ma 6 stron treści)
+            //https://api-v3.mojepanstwo.pl/dane/dziennik_ustaw?conditions[dziennik_ustaw.poz]=1485&conditions[dziennik_ustaw.nr]=179&conditions[dziennik_ustaw.rok]=2005
             string apiStr = client.BaseAddress.ToString();
             StringBuilder sb = new StringBuilder(apiStr);
             sb.Replace('/', '?', apiStr.Length - 1, 1);
@@ -64,11 +66,12 @@ namespace Prawnotron
             Ustawa ustawa = JsonConvert.DeserializeObject<Ustawa>(result.ToString());
 
 
-            //TODO: Piotrek, zrób zapis do pliku z
+            //TODO: Piotrek, zrób zapis do pliku
             HttpResponseMessage response = await client.GetAsync(path);
             if (response.IsSuccessStatusCode)
             {
                 //zapis do pliku, obróbka i deserializacja do <Ustawa>
+                //TODO: ustawy wielostronnicowe
             }
             return ustawa;
         }
