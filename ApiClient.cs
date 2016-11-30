@@ -15,20 +15,20 @@ namespace Prawnotron
 {
     class ApiClient
     {
-        static HttpClient client = new HttpClient();
+        private static readonly HttpClient Client = new HttpClient();
 
         public ApiClient()
         {
-            client.BaseAddress = new Uri("https://api-v3.mojepanstwo.pl/dane/dziennik_ustaw/");
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            Client.BaseAddress = new Uri("https://api-v3.mojepanstwo.pl/dane/dziennik_ustaw/");
+            Client.DefaultRequestHeaders.Accept.Clear();
+            Client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public static async Task<List<Ustawa>> szukajAsync(params string[] conditions)
+        public static async Task<List<Ustawa>> SzukajAsync(params string[] conditions)
         {
             //przykład wyszukiwania konkretnej ustawy znając sygnaturę Dz.U (Ustawa o przeciwdziałaniu narkomanii, HTML ma 6 stron treści)
             //https://api-v3.mojepanstwo.pl/dane/dziennik_ustaw?conditions[dziennik_ustaw.poz]=1485&conditions[dziennik_ustaw.nr]=179&conditions[dziennik_ustaw.rok]=2005
-            string apiStr = client.BaseAddress.ToString();
+            string apiStr = Client.BaseAddress.ToString();
             StringBuilder sb = new StringBuilder(apiStr);
             sb.Replace('/', '?', apiStr.Length - 1, 1);
             foreach (string warunek in conditions)
@@ -37,7 +37,7 @@ namespace Prawnotron
                 sb.AppendFormat("&conditions[dziennik_ustaw.{0}]={1}", nameof(warunek), warunek);
             }
 
-            HttpResponseMessage responseMessage = await client.GetAsync(sb.ToString());
+            HttpResponseMessage responseMessage = await Client.GetAsync(sb.ToString());
             if (responseMessage.IsSuccessStatusCode)
             {
                 //TODO: Tutaj wstawić metodę zapisująco - parsującą
@@ -59,15 +59,15 @@ namespace Prawnotron
             RemoveDatasetName(path);
             //Ustawa ustawa = JsonConvert.DeserializeObject<Ustawa>(File.ReadAllText(path));
 
-            string ust_str = File.ReadAllText("Ustawa_2137.json");
-            JObject mp_result = JObject.Parse(ust_str);
-            JToken result = mp_result["data"];
+            string ustStr = File.ReadAllText("Ustawa_2137.json");
+            JObject mpResult = JObject.Parse(ustStr);
+            JToken result = mpResult["data"];
             //TO DZIAŁA, MAMY POPRAWNY OBIEKT KLASY USTAWA!!!
             Ustawa ustawa = JsonConvert.DeserializeObject<Ustawa>(result.ToString());
 
 
             //TODO: Piotrek, zrób zapis do pliku
-            HttpResponseMessage response = await client.GetAsync(path);
+            HttpResponseMessage response = await Client.GetAsync(path);
             if (response.IsSuccessStatusCode)
             {
                 //zapis do pliku, obróbka i deserializacja do <Ustawa>
@@ -75,9 +75,44 @@ namespace Prawnotron
             }
             return ustawa;
         }
+        //TODO: poprawić to i scalić z resztą
+        private static async Task<string> Getsavejson(int id)
+        {
+            string ustawa;
+            using (Client)
+            {
+                try
+                {
+                    HttpResponseMessage response = await Client.GetAsync("https://api-v3.mojepanstwo.pl/dane/dziennik_ustaw/" + id);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        ustawa = await response.Content.ReadAsStringAsync();
+                    }
+                    else
+                    {
+                        ustawa = "cos sie popsulo";
+                    }
+                }
+                catch (HttpRequestException e)
+                {
+                    Client.Dispose();
+                    ustawa = e.Message;
+                }
+                JObject obj = JObject.Parse(ustawa);
+                using (StreamWriter sw = new StreamWriter("ustawa_" + id + ".json"))
+                {
+                    JsonSerializer j = new JsonSerializer();
+                    j.Formatting = Formatting.Indented;
+                    j.Serialize(sw, obj);
+                }
+                return ustawa;
+            }
+        }
+    
+        //zalążek metody
         private static async Task GetContentAsync(Ustawa ustawa){
             HttpResponseMessage responseMessage;
-            FileStream trescStream = new File.Create("tresc.html");
+            var trescStream = new FileStream("tresc.html", FileMode.CreateNew);
             StringBuilder sb = new StringBuilder("https://docs.mojepanstwo.pl/htmlex/");
             
         }
