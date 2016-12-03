@@ -76,6 +76,7 @@ namespace Prawnotron
             return ustawa;
         }
         //TODO: poprawić to i scalić z resztą
+        static async Task Getsavejson(int id)
         {
             string ustawa;
             using (Client)
