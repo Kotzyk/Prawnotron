@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Prawnotron
 {
-    internal class Ustawa {
+    public class Ustawa {
         public int Poz { get; set; }
         public int Nr { get; set; }
         public string IsapDataWydania { get; set; }

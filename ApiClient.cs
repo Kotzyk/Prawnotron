@@ -13,9 +13,9 @@ using Newtonsoft.Json.Linq;
 
 namespace Prawnotron
 {
-    class ApiClient
+    public class ApiClient
     {
-        private static readonly HttpClient Client = new HttpClient();
+        static readonly HttpClient Client = new HttpClient();
 
         public ApiClient()
         {
@@ -47,14 +47,14 @@ namespace Prawnotron
             return null;
         }
 
-        private static void RemoveDatasetName(string jsonPath, string dataset = "dziennik_ustaw.")
+        static void RemoveDatasetName(string jsonPath, string dataset = "dziennik_ustaw.")
         {
             string text = File.ReadAllText(jsonPath);
             text = text.Replace(dataset, "");
             File.WriteAllText(jsonPath, text);
         }
 
-        private static async Task<Ustawa> GetUstawaAsynch(string path)
+        static async Task<Ustawa> GetUstawaAsynch(string path)
         {
             RemoveDatasetName(path);
             //Ustawa ustawa = JsonConvert.DeserializeObject<Ustawa>(File.ReadAllText(path));
@@ -76,7 +76,6 @@ namespace Prawnotron
             return ustawa;
         }
         //TODO: poprawić to i scalić z resztą
-        private static async Task<string> Getsavejson(int id)
         {
             string ustawa;
             using (Client)
@@ -99,22 +98,21 @@ namespace Prawnotron
                     ustawa = e.Message;
                 }
                 JObject obj = JObject.Parse(ustawa);
-                using (StreamWriter sw = new StreamWriter("ustawa_" + id + ".json"))
+               
+                using (StreamWriter sw = File.CreateText("ustawa_" + id + ".json"))
                 {
-                    JsonSerializer j = new JsonSerializer();
-                    j.Formatting = Formatting.Indented;
+                    JsonSerializer j = new JsonSerializer {Formatting = Formatting.Indented};
                     j.Serialize(sw, obj);
                 }
-                return ustawa;
             }
         }
     
         //zalążek metody
-        private static async Task GetContentAsync(Ustawa ustawa){
+        /*private static async Task GetContentAsync(Ustawa ustawa){
             HttpResponseMessage responseMessage;
             var trescStream = new FileStream("tresc.html", FileMode.CreateNew);
             StringBuilder sb = new StringBuilder("https://docs.mojepanstwo.pl/htmlex/");
             
-        }
+        }*/
     }
 }
