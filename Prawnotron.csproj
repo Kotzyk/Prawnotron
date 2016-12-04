@@ -118,7 +118,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="Ustawa_2137.json" />
+    <None Include="Json\Ustawa_2137.json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

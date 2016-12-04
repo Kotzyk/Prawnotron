@@ -77,28 +77,28 @@ namespace Prawnotron
             text = text.Replace(dataset, "");
             File.WriteAllText(jsonPath, text);
         }
-
-        static async Task<Ustawa> GetUstawaAsynch(string path)
+        /// <summary>
+        /// Deserialuje pliki <code>JSON</code> do klasy <see cref="Ustawa"/>
+        /// </summary>
+        /// <param name="path">ścieżka do pliku <code>JSON</code></param>
+        /// <returns>Deserializowany obiekt klasy Ustawa</returns>
+        protected static Ustawa ParseUstawa(string path)
         {
             RemoveDatasetName(path);
             //Ustawa ustawa = JsonConvert.DeserializeObject<Ustawa>(File.ReadAllText(path));
 
-            string ustStr = File.ReadAllText("Ustawa_2137.json");
+            string ustStr = File.ReadAllText(path);
             JObject mpResult = JObject.Parse(ustStr);
             JToken result = mpResult["data"];
             //TO DZIAŁA, MAMY POPRAWNY OBIEKT KLASY USTAWA!!!
             Ustawa ustawa = JsonConvert.DeserializeObject<Ustawa>(result.ToString());
-
-           
-            HttpResponseMessage response = await Client.GetAsync(path);
-            if (response.IsSuccessStatusCode)
-            {
-                //zapis do pliku, obróbka i deserializacja do <Ustawa>
-                //TODO: ustawy wielostronnicowe
-            }
             return ustawa;
         }
-        //TODO: poprawić to i scalić z resztą
+        /// <summary>
+        /// Zapisuje pli
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         static async Task Getsavejson(int id)
         {
             using (Client)
@@ -123,7 +123,7 @@ namespace Prawnotron
                 }
                 JObject obj = JObject.Parse(ustawa);
                
-                using (StreamWriter sw = File.CreateText("ustawa_" + id + ".json"))
+                using (StreamWriter sw = File.CreateText("json/ustawa_" + id + ".json"))
                 {
                     JsonSerializer j = new JsonSerializer {Formatting = Formatting.Indented};
                     j.Serialize(sw, obj);
@@ -131,12 +131,12 @@ namespace Prawnotron
             }
         }
     
-        //zalążek metody
-        /*private static async Task GetContentAsync(Ustawa ustawa){
+        //zalążek metody do pobierania treści
+        static async Task GetContentAsync(Ustawa ustawa){
             HttpResponseMessage responseMessage;
             var trescStream = new FileStream("tresc.html", FileMode.CreateNew);
             StringBuilder sb = new StringBuilder("https://docs.mojepanstwo.pl/htmlex/");
             
-        }*/
+        }
     }
 }
