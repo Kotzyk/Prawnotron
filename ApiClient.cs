@@ -2,24 +2,23 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Windows.Controls;
+using System.Windows.Documents;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Bson;
-using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Prawnotron.Properties;
 
 namespace Prawnotron
 {
     /// <summary>
-    /// Klasa odpowiedzialna za łączność z API poprzez HTTP i pobieranie szczegółów oraz treści ustaw.
+    /// Łączność z API poprzez <see cref="HttpClient" /> i pobieranie szczegółów oraz treści ustaw. <seealso cref="Ustawa" /><seealso cref="ApiClient.ParseUstawa" />
     /// </summary>
-    public class ApiClient
+    public sealed class ApiClient
     {
         static readonly HttpClient Client = new HttpClient();
 
@@ -34,9 +33,9 @@ namespace Prawnotron
         }
 
         /// <summary>
-        /// Metoda usuwająca nazwę datasetu z parametrów we wskazanym pliku JSON
+        /// Metoda usuwająca nazwę datasetu z parametrów we wskazanym pliku <c>JSON</c>
         /// </summary>
-        /// <param name="jsonPath">ścieżka do pliku JSON</param>
+        /// <param name="jsonPath">ścieżka do pliku <c>JSON</c></param><seealso cref="File"/>
         /// <param name="dataset">nazwa datasetu z API, np. prawo, dziennik_ustaw. Domyślnie "dziennik_ustaw"</param>
         static void RemoveDatasetName(string jsonPath, string dataset = "dziennik_ustaw.")
         {
@@ -46,11 +45,11 @@ namespace Prawnotron
         }
 
         /// <summary>
-        /// Deserialuje pliki <code>JSON</code> do klasy <see cref="Ustawa"/>
+        /// Deserialuje pliki <c>JSON</c> do klasy Ustawa <see cref="Ustawa"/>, korzystając z zamiany na
         /// </summary>
-        /// <param name="path">ścieżka do pliku <code>JSON</code></param>
+        /// <param name="path">ścieżka do pliku <c>JSON</c> <seealso cref="string"/></param>
         /// <returns>Deserializowany obiekt klasy Ustawa</returns>
-        protected static Ustawa ParseUstawa(string path)
+        static Ustawa ParseUstawa(string path)
         {
             RemoveDatasetName(path);
             //Ustawa ustawa = JsonConvert.DeserializeObject<Ustawa>(File.ReadAllText(path));
@@ -69,7 +68,7 @@ namespace Prawnotron
         /// </summary>
         /// <param name="id">ID ustawy <see cref="Ustawa.Id"/></param>
         /// <returns></returns>
-        static async Task Getsavejson(int id)
+        static async Task GetSavejson(int id)
         {
             using (Client)
             {
@@ -96,7 +95,7 @@ namespace Prawnotron
 
                 using (StreamWriter sw = File.CreateText("json/ustawa_" + id + ".json"))
                 {
-                    JsonSerializer j = new JsonSerializer {Formatting = Formatting.Indented};
+                    JsonSerializer j = new JsonSerializer { Formatting = Formatting.Indented };
                     j.Serialize(sw, obj);
                     sw.Close();
                 }
@@ -104,16 +103,21 @@ namespace Prawnotron
         }
 
         /// <summary>
-        /// Metoda wyszukująca ustawy w API korzystając z metody ?conditions[].
+        /// Wyszukuje ustawy w API korzystając z metody ?conditions[].
         /// Pobiera listę par (nazwa pola w GUI, treść pola w GUI),
-        ///  a zwraca listę <see cref="Ustawa"/> do wyświetlenia w interfejsie.
+        /// a zwraca listę <see cref="Ustawa" /> do wyświetlenia w interfejsie.
         /// </summary>
-        /// <param name="conditions">
-        ///     Lista <see cref="KeyValuePair{TKey,TValue}"/>:
-        ///     Key = Nazwa parametru, np.<see cref="Ustawa.Rok"/>;
-        ///     Value = Zawartość <code>TextBox</code>
-        /// </param>
-        /// <returns>Lista <code>Ustaw</code>do wyświetlenia w GUI <see cref="Ustawa"/> </returns>
+        /// <param name="conditions">Lista <see cref="KeyValuePair{TKey,TValue}" />:
+        /// Key = Nazwa parametru, np.<see cref="Ustawa.Rok" />;
+        /// Value = Zawartość <see cref="TextBox" /></param>
+        /// <returns>
+        /// Lista <see cref="Ustawa" /> do wyświetlenia w GUI
+        /// </returns>
+        /// <exception cref="System.ArgumentNullException">Jeśli lista jest null</exception>
+        /// <exception cref="System.ArgumentException">Jeśli lista argumentów jest pusta</exception>
+        /// <seealso cref="System.Windows.Controls" />
+        /// <seealso cref="GetSavejson" />
+        /// <seealso cref="RemoveDatasetName" />
         public static async Task<List<Ustawa>> SzukajAsync(List<KeyValuePair<string, string>> conditions)
         {
             //check if null
@@ -122,15 +126,14 @@ namespace Prawnotron
             if (conditions.Count == 0)
                 throw new ArgumentException(Resources.cannot_be_an_empty_collection, nameof(conditions));
 
-            //przykład wyszukiwania konkretnej ustawy znając sygnaturę Dz.U (Ustawa o przeciwdziałaniu narkomanii, HTML ma 6 stron treści)
-            //https://api-v3.mojepanstwo.pl/dane/dziennik_ustaw?conditions[dziennik_ustaw.poz]=1485&conditions[dziennik_ustaw.nr]=179&conditions[dziennik_ustaw.rok]=2005
+            List<Ustawa> wynikiList = new List<Ustawa>();
 
             string apiStr = Client.BaseAddress.ToString();
             StringBuilder sb = new StringBuilder(apiStr);
             sb.Replace('/', '?', apiStr.Length - 1, 1);
             foreach (KeyValuePair<string, string> warunek in conditions)
             {
-                //pod {0} wstawiać nazwę zmiennej, a pod {1} jej wartość
+                //pod {0} wstawiać nazwę zmiennej / pola, a pod {1} wartość
 
                 sb.AppendFormat("&conditions[dziennik_ustaw.{0}]={1}", warunek.Key, warunek.Value);
             }
@@ -138,18 +141,24 @@ namespace Prawnotron
             HttpResponseMessage responseMessage = await Client.GetAsync(sb.ToString());
             if (responseMessage.IsSuccessStatusCode)
             {
-                //TODO: Tutaj wstawić metodę zapisująco - parsującą
+
+                //TODO: parsowanie ustaw z listy w API - jak?
+                //np. gdy nie wpisze się ID, tylko od razu (...)/dziennik_ustaw/
+                //TODO: Użyć GetSaveJson, potem ParseUstawa, wrzucać do listy.
 
             }
-            //TODO: return lista ustaw do wyświetlenia w GUI
-            return null;
+            return wynikiList;
         }
-
+        //TODO: poprawne szukanie po ?q=
         /// <summary>
-        /// Zapisuje treść wybranej ustawy z API do pliku .html do dalszej obróbki.
+        /// Asynchronicznie zapisuje treść wybranej ustawy z API do pliku <c>HTML</c> do dalszej obróbki.
+        /// <seealso cref="HttpClient"/>
+        /// <seealso cref="StringBuilder"/>
+        /// <seealso cref="HttpResponseMessage"/>
+        /// <seealso cref="FileStream"/>
         /// </summary>
         /// <param name="ustawa"><see cref="Ustawa"/>, której treść pobieramy</param>
-        /// <returns>Treść ustawy zapisana w pliku .html</returns>
+        /// <returns>Treść ustawy zapisana w pliku <c>HTML</c></returns>
         static async Task GetContentAsync(Ustawa ustawa)
         {
             //Ciesz się, Piotrek
@@ -166,26 +175,41 @@ namespace Prawnotron
             }
             catch (HttpRequestException e)
             {
-                Debug.WriteLine(e.Message);
-                throw;
+                Debug.Fail(e.Message);
             }
+            //przykład wyszukiwania konkretnej ustawy znając sygnaturę Dz.U (Ustawa o przeciwdziałaniu narkomanii, HTML ma 6 stron treści)
+            //https://api-v3.mojepanstwo.pl/dane/dziennik_ustaw?conditions[dziennik_ustaw.poz]=1485&conditions[dziennik_ustaw.nr]=179&conditions[dziennik_ustaw.rok]=2005
 
-                while (responseMessage.IsSuccessStatusCode)
+            #region DownloadRegion
+
+            while (responseMessage.IsSuccessStatusCode)
+            {
+                using (Client)
                 {
-                    using (Client)
+                    try
                     {
-                    responseMessage = await Client.GetAsync(sb.ToString());
-                    Stream content = await Client.GetStreamAsync(sb.ToString());
+                        responseMessage = await Client.GetAsync(sb.ToString());
+                        Stream content = await Client.GetStreamAsync(sb.ToString());
                         content.CopyTo(trescStream);
-                    //wyrażenia warunkowe na wypadek dwucyfrowej liczby stron
+
+                        //wyrażenia warunkowe na wypadek dwucyfrowej liczby stron
                         sb.Replace(counter.ToString(), (counter + 1).ToString(),
-                            (counter<10)?(sb.Length-6):(sb.Length-7),
-                            (counter<10)?1:2);
+                            counter < 10 ? sb.Length - 6 : sb.Length - 7,
+                            counter < 10 ? 1 : 2);
                         counter++;
                     }
-
+                    catch (HttpRequestException hEx)
+                    {
+                        Debug.Fail(hEx.Message);
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.Fail(e.Message);
+                    }
                 }
                 trescStream.Close();
+                #endregion
             }
         }
     }
+}
