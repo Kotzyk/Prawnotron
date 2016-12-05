@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Prawnotron
 {
-    public class Ustawa {
+    /// <summary>
+    /// Model ustawy, zgodny z formatem API.
+    /// </summary>
+    public abstract class Ustawa {
         public int Poz { get; set; }
         public int Nr { get; set; }
         public string IsapDataWydania { get; set; }
