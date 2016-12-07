@@ -8,7 +8,7 @@ using HtmlAgilityPack;
 namespace Statue
 {
 
-    /*  static void Main(){
+        /*static void Main(){
             Statue ustawaZPliku = new Ustawa("nazwa_pliku.html");
             Statue ustawaZeStringu = new Ustawa("<html>.....</html>", true);
             ustawaZPliku.pages[0] <- dostep do zawartosci strony pierwszej ustawy
@@ -17,7 +17,6 @@ namespace Statue
     {
         private HtmlDocument htmlFromFile { get; set; }
         public List<String> pages = new List<String>();
-
 
         public Statue(string a, bool readFromString = false)
         {
@@ -30,9 +29,6 @@ namespace Statue
         {
 
         }
-
-
-
 
         public void ReadStatuePagesFromHtml(HtmlDocument document)
         {
@@ -68,8 +64,5 @@ namespace Statue
             doc.LoadHtml(html);
             return doc;
         }
-
-
-
     }
 }

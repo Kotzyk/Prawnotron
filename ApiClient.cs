@@ -12,6 +12,7 @@ using System.Windows.Documents;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Prawnotron.Properties;
+using System.Text.RegularExpressions;
 
 namespace Prawnotron
 {
@@ -75,8 +76,7 @@ namespace Prawnotron
                 string ustawa;
                 try
                 {
-                    HttpResponseMessage response = await
-                        Client.GetAsync("https://api-v3.mojepanstwo.pl/dane/dziennik_ustaw/" + id);
+                    HttpResponseMessage response = await Client.GetAsync(Resources.Base_API1 + id);
                     if (response.IsSuccessStatusCode)
                     {
                         ustawa = await response.Content.ReadAsStringAsync();
@@ -128,20 +128,48 @@ namespace Prawnotron
 
             List<Ustawa> wynikiList = new List<Ustawa>();
 
-            string apiStr = Client.BaseAddress.ToString();
+            string apiStr = Resources.Base_API3.ToString();
             StringBuilder sb = new StringBuilder(apiStr);
-            sb.Replace('/', '?', apiStr.Length - 1, 1);
             foreach (KeyValuePair<string, string> warunek in conditions)
             {
                 //pod {0} wstawiać nazwę zmiennej / pola, a pod {1} wartość
-
-                sb.AppendFormat("&conditions[dziennik_ustaw.{0}]={1}", warunek.Key, warunek.Value);
+                if (conditions.Count == 1)
+                {
+                    sb.AppendFormat("conditions[dziennik_ustaw.{0}]={1}", warunek.Key, warunek.Value);
+                }
+                else if (conditions.Count > 1)
+                {
+                    sb.AppendFormat("&conditions[dziennik_ustaw.{0}]={1}", warunek.Key, warunek.Value);
+                }
             }
 
             HttpResponseMessage responseMessage = await Client.GetAsync(sb.ToString());
             if (responseMessage.IsSuccessStatusCode)
             {
-
+                string ustawa = await responseMessage.Content.ReadAsStringAsync();
+                Regex rgx = new Regex(@"\{.*\[");
+                ustawa = rgx.Replace(ustawa, "");
+                Regex rgx2 = new Regex(@"\]\,.\w{5}.*\}\}");
+                ustawa = rgx2.Replace(ustawa, "");
+                string[] podustawy = Regex.Split(ustawa, @"\}\}\,");
+                for (int i = 0; i < podustawy.Length; i++)
+                {
+                    string temp = "";
+                    temp = podustawy[i];
+                    temp = temp + "}},";
+                    podustawy[i] = temp;
+                }
+                for (int i = 0; i < podustawy.Length; i++)
+                {
+                    using (StreamWriter sw = new StreamWriter((i+1)+"ustawa.txt", false))
+                    {
+                        sw.Write(podustawy[i]);
+                    }
+                }
+                for (int i = 0; i < podustawy.Length; i++)
+                {
+                    wynikiList.Add(ParseUstawa((i + 1) + "ustawa.txt"));
+                }
                 //TODO: parsowanie ustaw z listy w API - jak?
                 //np. gdy nie wpisze się ID, tylko od razu (...)/dziennik_ustaw/
                 //TODO: Użyć GetSaveJson, potem ParseUstawa, wrzucać do listy.
