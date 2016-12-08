@@ -156,24 +156,24 @@ namespace Prawnotron
                 {
                     string temp = "";
                     temp = podustawy[i];
-                    temp = temp + "}},";
+                    if(i < (podustawy.Length -1))
+                        temp = temp + "}}";
                     podustawy[i] = temp;
                 }
                 for (int i = 0; i < podustawy.Length; i++)
                 {
-                    using (StreamWriter sw = new StreamWriter((i+1)+"ustawa.txt", false))
+                    using (StreamWriter sw = new StreamWriter((i+1)+"ustawa.json", false))
                     {
                         sw.Write(podustawy[i]);
                     }
                 }
                 for (int i = 0; i < podustawy.Length; i++)
                 {
-                    wynikiList.Add(ParseUstawa((i + 1) + "ustawa.txt"));
+                    wynikiList.Add(ParseUstawa((i + 1) + "ustawa.json"));
                 }
                 //TODO: parsowanie ustaw z listy w API - jak?
                 //np. gdy nie wpisze się ID, tylko od razu (...)/dziennik_ustaw/
                 //TODO: Użyć GetSaveJson, potem ParseUstawa, wrzucać do listy.
-
             }
             return wynikiList;
         }
