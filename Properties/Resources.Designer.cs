@@ -86,5 +86,14 @@ namespace Prawnotron.Properties {
                 return ResourceManager.GetString("cannot_be_an_empty_collection", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://api-v3.mojepanstwo.pl/dane/dziennik_ustaw?.
+        /// </summary>
+        internal static string DzU_Search {
+            get {
+                return ResourceManager.GetString("DzU_Search", resourceCulture);
+            }
+        }
     }
 }
