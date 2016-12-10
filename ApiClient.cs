@@ -131,17 +131,7 @@ namespace Prawnotron
             string apiStr = Resources.DzU_Search;
             StringBuilder sb = new StringBuilder(apiStr);
             foreach (KeyValuePair<string, string> warunek in conditions)
-            {
-                //pod {0} wstawiać nazwę zmiennej / pola, a pod {1} wartość
-                if (conditions.Count == 1)
-                {
-                    sb.AppendFormat("conditions[dziennik_ustaw.{0}]={1}", warunek.Key, warunek.Value);
-                }
-                else if (conditions.Count > 1)
-                {
-                    sb.AppendFormat("&conditions[dziennik_ustaw.{0}]={1}", warunek.Key, warunek.Value);
-                }
-            }
+                sb.Append($"&conditions[dziennik_ustaw.{warunek.Key}]={warunek.Value}");
 
             HttpResponseMessage responseMessage = await Client.GetAsync(sb.ToString());
             if (responseMessage.IsSuccessStatusCode)
@@ -171,13 +161,12 @@ namespace Prawnotron
                 {
                     wynikiList.Add(ParseUstawa((i + 1) + "ustawa.json"));
                 }
-                //TODO: parsowanie ustaw z listy w API - jak?
-                //np. gdy nie wpisze się ID, tylko od razu (...)/dziennik_ustaw/
-                //TODO: Użyć GetSaveJson, potem ParseUstawa, wrzucać do listy.
             }
             return wynikiList;
         }
         //TODO: poprawne szukanie po ?q=
+
+
         /// <summary>
         /// Asynchronicznie zapisuje treść wybranej ustawy z API do pliku <c>HTML</c> do dalszej obróbki.
         /// <seealso cref="HttpClient"/>
