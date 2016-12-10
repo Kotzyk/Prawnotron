@@ -128,7 +128,7 @@ namespace Prawnotron
 
             List<Ustawa> wynikiList = new List<Ustawa>();
 
-            string apiStr = Resources.Base_API3.ToString();
+            string apiStr = Resources.DzU_Search;
             StringBuilder sb = new StringBuilder(apiStr);
             foreach (KeyValuePair<string, string> warunek in conditions)
             {
