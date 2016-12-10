@@ -125,6 +125,10 @@
     <value>https://docs.mojepanstwo.pl/htmlex/</value>
     <comment>adres drugiego API</comment>
   </data>
+  <data name="Base_API3" xml:space="preserve">
+    <value>https://api-v3.mojepanstwo.pl/dane?</value>
+    <comment>adres trzeciego API</comment>
+  </data>
   <data name="cannot_be_an_empty_collection" xml:space="preserve">
     <value>Value cannot be an empty collection.</value>
   </data>
