@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Prawnotron.Properties;
@@ -19,50 +18,21 @@ namespace Prawnotron
     /// <summary>
     /// Łączność z API poprzez <see cref="HttpClient" /> i pobieranie szczegółów oraz treści ustaw. <seealso cref="Ustawa" /><seealso cref="ApiClient.ParseUstawa" />
     /// </summary>
-    public sealed class ApiClient
+    // ReSharper disable once UnusedMember.Global
+    public static class ApiClient
     {
         static readonly HttpClient Client = new HttpClient();
 
         /// <summary>
         /// Konstruktor przypisujący podstawowe parametry klienta HTTP
         /// </summary>
-        public ApiClient()
+        static ApiClient()
         {
             Client.BaseAddress = new Uri(Resources.Base_API1);
             Client.DefaultRequestHeaders.Accept.Clear();
             Client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        /// <summary>
-        /// Metoda usuwająca nazwę datasetu z parametrów we wskazanym pliku <c>JSON</c>
-        /// </summary>
-        /// <param name="jsonPath">ścieżka do pliku <c>JSON</c></param><seealso cref="File"/>
-        /// <param name="dataset">nazwa datasetu z API, np. prawo, dziennik_ustaw. Domyślnie "dziennik_ustaw"</param>
-        static void RemoveDatasetName(string jsonPath, string dataset = "dziennik_ustaw.")
-        {
-            string text = File.ReadAllText(jsonPath);
-            text = text.Replace(dataset, "");
-            File.WriteAllText(jsonPath, text);
-        }
-
-        /// <summary>
-        /// Deserialuje pliki <c>JSON</c> do klasy Ustawa <see cref="Ustawa"/>, korzystając z zamiany na
-        /// </summary>
-        /// <param name="path">ścieżka do pliku <c>JSON</c> <seealso cref="string"/></param>
-        /// <returns>Deserializowany obiekt klasy Ustawa</returns>
-        static Ustawa ParseUstawa(string path)
-        {
-            RemoveDatasetName(path);
-            //Ustawa ustawa = JsonConvert.DeserializeObject<Ustawa>(File.ReadAllText(path));
-
-            string ustStr = File.ReadAllText(path);
-
-            JObject mpResult = JObject.Parse(ustStr);
-            JToken result = mpResult["data"];
-
-            Ustawa ustawa = JsonConvert.DeserializeObject<Ustawa>(result.ToString());
-            return ustawa;
-        }
 
         /// <summary>
         /// Zapisuje pliki .json z API dotyczące konkretnej ustawy
@@ -93,7 +63,7 @@ namespace Prawnotron
                 }
                 JObject obj = JObject.Parse(ustawa);
 
-                using (StreamWriter sw = File.CreateText("json/ustawa_" + id + ".json"))
+                using (StreamWriter sw = File.CreateText("../../Json/ustawa_" + id + ".json"))
                 {
                     JsonSerializer j = new JsonSerializer { Formatting = Formatting.Indented };
                     j.Serialize(sw, obj);
@@ -104,10 +74,10 @@ namespace Prawnotron
 
         /// <summary>
         /// Wyszukuje ustawy w API korzystając z metody ?conditions[].
-        /// Pobiera listę par (nazwa pola w GUI, treść pola w GUI),
+        /// Pobiera słownik (nazwa pola w GUI, treść pola w GUI),
         /// a zwraca listę <see cref="Ustawa" /> do wyświetlenia w interfejsie.
         /// </summary>
-        /// <param name="conditions">Lista <see cref="KeyValuePair{TKey,TValue}" />:
+        /// <param name="conds">Lista <see cref="Dictionary{TKey,TValue}" />:
         /// Key = Nazwa parametru, np.<see cref="Ustawa.Rok" />;
         /// Value = Zawartość <see cref="TextBox" /></param>
         /// <returns>
@@ -115,22 +85,21 @@ namespace Prawnotron
         /// </returns>
         /// <exception cref="System.ArgumentNullException">Jeśli lista jest null</exception>
         /// <exception cref="System.ArgumentException">Jeśli lista argumentów jest pusta</exception>
-        /// <seealso cref="System.Windows.Controls" />
         /// <seealso cref="GetSavejson" />
-        /// <seealso cref="RemoveDatasetName" />
-        public static async Task<List<Ustawa>> SzukajAsync(List<KeyValuePair<string, string>> conditions)
+        /// <seealso cref="Ustawa.RemoveDatasetName" />
+        public static async Task<List<Ustawa>> SzukajAsync(Dictionary<string, string> conds)
         {
             //check if null
-            if (conditions == null) throw new ArgumentNullException(nameof(conditions));
+            if (conds == null) throw new ArgumentNullException(nameof(conds));
             //check if empty
-            if (conditions.Count == 0)
-                throw new ArgumentException(Resources.cannot_be_an_empty_collection, nameof(conditions));
+            if (conds.Count == 0)
+                throw new ArgumentException(Resources.cannot_be_an_empty_collection, nameof(conds));
 
             List<Ustawa> wynikiList = new List<Ustawa>();
 
             string apiStr = Resources.DzU_Search;
             StringBuilder sb = new StringBuilder(apiStr);
-            foreach (KeyValuePair<string, string> warunek in conditions)
+            foreach (KeyValuePair<string, string> warunek in conds)
                 sb.Append($"&conditions[dziennik_ustaw.{warunek.Key}]={warunek.Value}");
 
             HttpResponseMessage responseMessage = await Client.GetAsync(sb.ToString());
@@ -159,7 +128,7 @@ namespace Prawnotron
                 }
                 for (int i = 0; i < podustawy.Length; i++)
                 {
-                    wynikiList.Add(ParseUstawa((i + 1) + "ustawa.json"));
+                    wynikiList.Add(new Ustawa(i + 1));
                 }
             }
             return wynikiList;
