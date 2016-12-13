@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -16,9 +17,9 @@ using System.Text.RegularExpressions;
 namespace Prawnotron
 {
     /// <summary>
-    /// Łączność z API poprzez <see cref="HttpClient" /> i pobieranie szczegółów oraz treści ustaw. <seealso cref="Ustawa" /><seealso cref="ApiClient.ParseUstawa" />
+    /// Łączność z API poprzez <see cref="HttpClient" /> i pobieranie szczegółów oraz treści ustaw. <seealso cref="Ustawa" /><seealso cref="Ustawa.ParseUstawa" />
     /// </summary>
-    // ReSharper disable once UnusedMember.Global
+    [SuppressMessage("ReSharper", "UnusedMember.Local")]
     public static class ApiClient
     {
         static readonly HttpClient Client = new HttpClient();
@@ -113,8 +114,7 @@ namespace Prawnotron
                 string[] podustawy = Regex.Split(ustawa, @"\}\}\,");
                 for (int i = 0; i < podustawy.Length; i++)
                 {
-                    string temp = "";
-                    temp = podustawy[i];
+                    string temp = podustawy[i];
                     if(i < (podustawy.Length -1))
                         temp = temp + "}}";
                     podustawy[i] = temp;
@@ -153,7 +153,7 @@ namespace Prawnotron
             Stream trescStream = new FileStream("tresc" + ustawa.Id + ".html", FileMode.CreateNew);
             StringBuilder sb = new StringBuilder(Resources.Base_API2);
 
-            string adres = ustawa.DokumentId + "/" + ustawa.DokumentId + "_";
+            string adres = $"{ustawa.DokumentId}/{ustawa.DokumentId}_";
             sb.Append(adres + counter + ".html");
             try
             {
