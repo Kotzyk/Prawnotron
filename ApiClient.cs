@@ -100,7 +100,7 @@ namespace Prawnotron
 
             string apiStr = Resources.DzU_Search;
             StringBuilder sb = new StringBuilder(apiStr);
-            foreach (KeyValuePair<string, string> warunek in conds)
+            foreach (var warunek in conds)
                 sb.Append($"&conditions[dziennik_ustaw.{warunek.Key}]={warunek.Value}");
 
             HttpResponseMessage responseMessage = await Client.GetAsync(sb.ToString());
@@ -121,10 +121,10 @@ namespace Prawnotron
                 }
                 for (int i = 0; i < podustawy.Length; i++)
                 {
-                    using (StreamWriter sw = new StreamWriter((i+1)+"ustawa.json", false))
+                    using (StreamWriter sw = File.CreateText($"../../Json/Ustawa_{(i + 1)}.json"))
                     {
                         sw.Write(podustawy[i]);
-                    }
+                    }                   
                 }
                 for (int i = 0; i < podustawy.Length; i++)
                 {

@@ -179,7 +179,7 @@ namespace Prawnotron
         /// <returns>Deserializowany obiekt klasy Ustawa</returns>
         static void ParseUstawa(int id)
         {
-            string p = $"../../Json/ustawa_{id}.json";
+            string p = $"../../Json/Ustawa_{id}.json";
             RemoveDatasetName(p);
 
             string ustStr = File.ReadAllText(p);
