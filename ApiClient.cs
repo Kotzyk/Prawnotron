@@ -68,7 +68,7 @@ namespace Prawnotron
                 {
                     JsonSerializer j = new JsonSerializer { Formatting = Formatting.Indented };
                     j.Serialize(sw, obj);
-                    sw.Close();
+
                 }
             }
         }
@@ -100,10 +100,12 @@ namespace Prawnotron
 
             string apiStr = Resources.DzU_Search;
             StringBuilder sb = new StringBuilder(apiStr);
+
             foreach (var warunek in conds)
                 sb.Append($"&conditions[dziennik_ustaw.{warunek.Key}]={warunek.Value}");
 
             HttpResponseMessage responseMessage = await Client.GetAsync(sb.ToString());
+
             if (responseMessage.IsSuccessStatusCode)
             {
                 string ustawa = await responseMessage.Content.ReadAsStringAsync();
@@ -112,23 +114,26 @@ namespace Prawnotron
                 Regex rgx2 = new Regex(@"\]\,.\w{5}.*\}\}");
                 ustawa = rgx2.Replace(ustawa, "");
                 string[] podustawy = Regex.Split(ustawa, @"\}\}\,");
+
                 for (int i = 0; i < podustawy.Length; i++)
                 {
                     string temp = podustawy[i];
                     if(i < (podustawy.Length -1))
                         temp = temp + "}}";
                     podustawy[i] = temp;
-                }
+                } //podustawy wczytuje poprawnie
                 for (int i = 0; i < podustawy.Length; i++)
                 {
-                    using (StreamWriter sw = File.CreateText($"../../Json/Ustawa_{(i + 1)}.json"))
+                    using (TextWriter sw = new StreamWriter($"../../Json/Ustawa_{i + 1}.json"))
                     {
-                        sw.Write(podustawy[i]);
-                    }                   
+                       await sw.WriteAsync(podustawy[i]);
+                       await sw.FlushAsync();
+                    }
                 }
-                for (int i = 0; i < podustawy.Length; i++)
+                for (int a = 1; a <= podustawy.Length; a++)
                 {
-                    wynikiList.Add(new Ustawa(i + 1));
+                    Ustawa u = Ustawa.ParseUstawa(a);
+                    wynikiList.Add(u);
                 }
             }
             return wynikiList;
@@ -153,7 +158,7 @@ namespace Prawnotron
             Stream trescStream = new FileStream("tresc" + ustawa.Id + ".html", FileMode.CreateNew);
             StringBuilder sb = new StringBuilder(Resources.Base_API2);
 
-            string adres = $"{ustawa.DokumentId}/{ustawa.DokumentId}_";
+            string adres = $"{ustawa.Dokument_Id}/{ustawa.Dokument_Id}_";
             sb.Append(adres + counter + ".html");
             try
             {

@@ -114,13 +114,62 @@
     </EmbeddedResource>
     <None Include="ClassDiagram1.cd" />
     <None Include="dziennik_ustaw.json" />
+    <None Include="Json\Ustawa_1.json" />
+    <None Include="Json\Ustawa_10.json" />
+    <None Include="Json\Ustawa_11.json" />
+    <None Include="Json\Ustawa_12.json" />
+    <None Include="Json\Ustawa_13.json" />
+    <None Include="Json\Ustawa_14.json" />
+    <None Include="Json\Ustawa_15.json" />
+    <None Include="Json\Ustawa_16.json" />
+    <None Include="Json\Ustawa_17.json" />
+    <None Include="Json\Ustawa_18.json" />
+    <None Include="Json\Ustawa_19.json" />
+    <None Include="Json\Ustawa_2.json" />
+    <None Include="Json\Ustawa_20.json" />
+    <None Include="Json\Ustawa_21.json" />
+    <None Include="Json\Ustawa_22.json" />
+    <None Include="Json\Ustawa_23.json" />
+    <None Include="Json\Ustawa_24.json" />
+    <None Include="Json\Ustawa_25.json" />
+    <None Include="Json\Ustawa_26.json" />
+    <None Include="Json\Ustawa_27.json" />
+    <None Include="Json\Ustawa_28.json" />
+    <None Include="Json\Ustawa_29.json" />
+    <None Include="Json\Ustawa_3.json" />
+    <None Include="Json\Ustawa_30.json" />
+    <None Include="Json\Ustawa_31.json" />
+    <None Include="Json\Ustawa_32.json" />
+    <None Include="Json\Ustawa_33.json" />
+    <None Include="Json\Ustawa_34.json" />
+    <None Include="Json\Ustawa_35.json" />
+    <None Include="Json\Ustawa_36.json" />
+    <None Include="Json\Ustawa_37.json" />
+    <None Include="Json\Ustawa_38.json" />
+    <None Include="Json\Ustawa_39.json" />
+    <None Include="Json\Ustawa_4.json" />
+    <None Include="Json\Ustawa_40.json" />
+    <None Include="Json\Ustawa_41.json" />
+    <None Include="Json\Ustawa_42.json" />
+    <None Include="Json\Ustawa_43.json" />
+    <None Include="Json\Ustawa_44.json" />
+    <None Include="Json\Ustawa_45.json" />
+    <None Include="Json\Ustawa_46.json" />
+    <None Include="Json\Ustawa_47.json" />
+    <None Include="Json\Ustawa_48.json" />
+    <None Include="Json\Ustawa_49.json" />
+    <None Include="Json\Ustawa_5.json" />
+    <None Include="Json\Ustawa_50.json" />
+    <None Include="Json\Ustawa_6.json" />
+    <None Include="Json\Ustawa_7.json" />
+    <None Include="Json\Ustawa_8.json" />
+    <None Include="Json\Ustawa_9.json" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="Json\Ustawa_2137.json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

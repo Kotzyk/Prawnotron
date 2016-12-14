@@ -34,7 +34,7 @@ namespace Prawnotron
         {
             try
             {
-                
+
                 dic.Add("rok", textBox_rok.Text);
                 //dic.Add("poz", textBox_poz.Text);
                 //dic.Add("nr", textBox_nr.Text);
@@ -48,7 +48,9 @@ namespace Prawnotron
                 listaUst = await ApiClient.SzukajAsync(dic);
                 Debug.WriteLine(listaUst.Count);
                 foreach (Ustawa u in listaUst)
-                    listaTytulow.Add(u.TytulSkrocony);
+                {
+                    listaTytulow.Add(u.Tytul);
+                }
                 listBox_listaUstaw.Items.Refresh();
             }
         }
