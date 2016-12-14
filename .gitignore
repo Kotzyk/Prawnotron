@@ -251,6 +251,9 @@ paket-files/
 .idea/
 *.sln.iml
 
+# Folder Json
+*.json
+
 # =========================
 # Operating System Files
 # =========================
