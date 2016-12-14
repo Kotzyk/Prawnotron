@@ -101,8 +101,13 @@ namespace Prawnotron
             string apiStr = Resources.DzU_Search;
             StringBuilder sb = new StringBuilder(apiStr);
 
-            foreach (var warunek in conds)
-                sb.Append($"&conditions[dziennik_ustaw.{warunek.Key}]={warunek.Value}");
+            foreach (KeyValuePair<string, string> warunek in conds)
+            {
+                if (warunek.Value != "" && warunek.Value != " ")
+                    sb.Append($"&conditions[dziennik_ustaw.{warunek.Key}]={warunek.Value}");
+
+            }
+
 
             HttpResponseMessage responseMessage = await Client.GetAsync(sb.ToString());
 
@@ -128,7 +133,7 @@ namespace Prawnotron
                     {
                     sw.Write(podustawy[i]);
                         }
-                    Ustawa u = Ustawa.ParseUstawa(a);
+                    Ustawa u = Ustawa.ParseUstawa(i+1);
                     wynikiList.Add(u);
                 }); //Todo: exception handling
             }
