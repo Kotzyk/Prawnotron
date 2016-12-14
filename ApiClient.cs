@@ -122,19 +122,15 @@ namespace Prawnotron
                         temp = temp + "}}";
                     podustawy[i] = temp;
                 } //podustawy wczytuje poprawnie
-                for (int i = 0; i < podustawy.Length; i++)
+                Parallel.For(0, podustawy.Length, i =>
                 {
                     using (TextWriter sw = new StreamWriter($"../../Json/Ustawa_{i + 1}.json"))
                     {
-                       await sw.WriteAsync(podustawy[i]);
-                       await sw.FlushAsync();
-                    }
-                }
-                for (int a = 1; a <= podustawy.Length; a++)
-                {
+                    sw.Write(podustawy[i]);
+                        }
                     Ustawa u = Ustawa.ParseUstawa(a);
                     wynikiList.Add(u);
-                }
+                }); //Todo: exception handling
             }
             return wynikiList;
         }
