@@ -19,7 +19,7 @@ namespace Prawnotron
     /// </summary>
     public partial class WyborUstaw : Window
     {
-        Dictionary<string, string> dic = new Dictionary<string, string>();
+        public Dictionary<string, string> dic = new Dictionary<string, string>();
 
         public WyborUstaw()
         {
@@ -29,9 +29,13 @@ namespace Prawnotron
         private void button_dodaj_Click(object sender, RoutedEventArgs e)
         {
             dic.Clear();
-            dic.Add("rok", textBox_Rok.Text);
-            dic.Add("poz", textBox_Pozycja.Text);
-            dic.Add("nr", textBox_Numer.Text);
+            if(checkBox_Rok.IsChecked == true)
+                dic.Add("rok", textBox_Rok.Text);
+            if (checkBox_Pozycja.IsChecked == true)
+                dic.Add("poz", textBox_Pozycja.Text);
+            if (checkBox_Numer.IsChecked == true)
+                dic.Add("nr", textBox_Numer.Text);
+            this.Close();
         }
     }
 }

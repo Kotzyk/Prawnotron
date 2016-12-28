@@ -7,25 +7,27 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="480" Width="640">
     <Grid>
-        <ListBox x:Name="listBox_listaUstaw" HorizontalAlignment="Left" Height="356" Margin="344,61,0,0" VerticalAlignment="Top" Width="260"/>
-        <Label x:Name="label1" Content="Lista dostępnych ustaw:" HorizontalAlignment="Left" Margin="344,21,0,0" VerticalAlignment="Top" Width="260" FontSize="20"/>
-        <Button x:Name="button_szukajUstawy" Content="Szukaj" HorizontalAlignment="Left" Margin="101,363,0,0" VerticalAlignment="Top" Width="182" Height="54" Click="button_szukajUstawy_Click"/>
-        <TextBox x:Name="textBox_rok" HorizontalAlignment="Left" Height="32" Margin="163,91,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" />
-        <TextBox x:Name="textBox_poz" HorizontalAlignment="Left" Height="33" Margin="163,137,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" />
-        <TextBox x:Name="textBox_nr" HorizontalAlignment="Left" Height="29" Margin="163,182,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" />
-        <Label x:Name="label_Copy" Content="Pozycja" HorizontalAlignment="Left" Margin="27,137,0,0" VerticalAlignment="Top" Width="109" Height="33"/>
-        <Label x:Name="label_Copy1" Content="Numer" HorizontalAlignment="Left" Margin="27,182,0,0" VerticalAlignment="Top" Width="109" Height="29" RenderTransformOrigin="0.5,0.5">
-            <Label.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform AngleX="-1.222"/>
-                    <RotateTransform/>
-                    <TranslateTransform X="-0.245"/>
-                </TransformGroup>
-            </Label.RenderTransform>
-        </Label>
-        <Label x:Name="label_Copy2" Content="Rok" HorizontalAlignment="Left" Margin="27,91,0,0" VerticalAlignment="Top" Width="109" Height="32"/>
-        <Button x:Name="button_kryteria" Content="Dodaj kryteria wyszukiwania" HorizontalAlignment="Left" Margin="101,276,0,0" VerticalAlignment="Top" Width="182" Height="49" Click="button_Click"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="91*"/>
+            <RowDefinition Height="134*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="293*"/>
+            <ColumnDefinition Width="341*"/>
+        </Grid.ColumnDefinitions>
+        <ListBox x:Name="listBox_listaUstaw" HorizontalAlignment="Left" Height="356" Margin="42.2,61,0,0" VerticalAlignment="Top" Width="260" Grid.Column="1" Grid.RowSpan="2"/>
+        <Label x:Name="label1" Content="Lista dostępnych ustaw:" HorizontalAlignment="Left" Margin="42.2,21,0,0" VerticalAlignment="Top" Width="260" FontSize="20" Grid.Column="1" Height="37"/>
+        <Button x:Name="button_szukajUstawy" Content="Szukaj" HorizontalAlignment="Left" Margin="66,180.6,0,0" VerticalAlignment="Top" Width="182" Height="54" Click="button_szukajUstawy_Click" Grid.Row="1"/>
+        <Button x:Name="button_kryteria" Content="Dodaj kryteria wyszukiwania" HorizontalAlignment="Left" Margin="66,93.6,0,0" VerticalAlignment="Top" Width="182" Height="57" Click="button_dodaj_click" Grid.Row="1"/>
+        <Label x:Name="label" Content="Wybrane kryteria:" HorizontalAlignment="Left" Margin="39,21,0,0" VerticalAlignment="Top" Height="34" Width="238" FontSize="20"/>
+        <ListView x:Name="listView" HorizontalAlignment="Left" Height="192" Margin="39,61,0,0" VerticalAlignment="Top" Width="244" Grid.RowSpan="2">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Klucz" DisplayMemberBinding="{Binding Key}" Width="115" />
+                    <GridViewColumn Header="Wartosc" DisplayMemberBinding="{Binding Value}" Width="125"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
 
     </Grid>
 </Window>
