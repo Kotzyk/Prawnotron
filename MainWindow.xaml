@@ -25,6 +25,7 @@
             </Label.RenderTransform>
         </Label>
         <Label x:Name="label_Copy2" Content="Rok" HorizontalAlignment="Left" Margin="27,91,0,0" VerticalAlignment="Top" Width="109" Height="32"/>
+        <Button x:Name="button_kryteria" Content="Dodaj kryteria wyszukiwania" HorizontalAlignment="Left" Margin="101,276,0,0" VerticalAlignment="Top" Width="182" Height="49" Click="button_Click"/>
 
     </Grid>
 </Window>

@@ -24,8 +24,8 @@ namespace Prawnotron
         List<Ustawa> _listaUst;
         readonly List<string> _listaTytulow= new List<string>();
         Stopwatch stopwatch = new Stopwatch();
-
         Dictionary<string, string> dic = new Dictionary<string, string>();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -59,6 +59,12 @@ namespace Prawnotron
                 stopwatch.Stop();
                 Debug.WriteLine(stopwatch.Elapsed);
             }
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            WyborUstaw wybor = new WyborUstaw();
+            wybor.ShowDialog();
         }
     }
 }
