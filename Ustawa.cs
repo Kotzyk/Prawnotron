@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
 
 namespace Prawnotron
 {
@@ -198,22 +199,19 @@ namespace Prawnotron
             try
             {
                 mpResult = JObject.Parse(ustStr);
+                mpResult.TryGetValue("data", out result);
+                Ustawa ustawa = JsonConvert.DeserializeObject<Ustawa>(result.ToString());
+                //dochodzi tu, po czym wraca do wywołania RemoveDatasetName ?!
+                return ustawa;
             }
             catch (JsonException jex)
             {
                 MessageBox.Show(jex.Message);
+                return null;
             }
-            if (mpResult.TryGetValue("data", out result))
+            catch (Exception e)
             {
-
-
-                Ustawa ustawa = JsonConvert.DeserializeObject<Ustawa>(result.ToString());
-                    //dochodzi tu, po czym wraca do wywołania RemoveDatasetName ?!
-                return ustawa;
-            }
-            else
-            {
-                MessageBox.Show("Coś się popsuło i nie udało się parsować ustawy");
+                MessageBox.Show(e.Message);
                 return null;
             }
         }

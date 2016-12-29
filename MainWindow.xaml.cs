@@ -21,8 +21,8 @@ namespace Prawnotron
     /// </summary>
     public partial class MainWindow : Window
     {
-        List<Ustawa> _listaUst;
-        readonly List<string> _listaTytulow= new List<string>();
+        List<Ustawa> _listaUst = new List<Ustawa>();
+        readonly List<string> _listaTytulow = new List<string>();
         Stopwatch stopwatch = new Stopwatch();
         Dictionary<string, string> dic = new Dictionary<string, string>();
 
@@ -46,25 +46,34 @@ namespace Prawnotron
                 }
                 listBox_listaUstaw.Items.Refresh();
             }
-            catch (Exception f)
+            catch (Exception ex)
             {
-                MessageBox.Show(f.Message);
+                MessageBox.Show(ex.Message);
             }
             finally
             {
                 stopwatch.Stop();
+                dic.Clear();
+                listView.Items.Refresh();
                 Debug.WriteLine(stopwatch.Elapsed);
             }
         }
 
         private void button_dodaj_click(object sender, RoutedEventArgs e)
         {
-            WyborUstaw wybor = new WyborUstaw();
-            if(wybor.ShowDialog() != null)
+            try
             {
-                dic = wybor.dic;
+                WyborUstaw wybor = new WyborUstaw();
+                if (wybor.ShowDialog() != null)
+                {
+                    dic = wybor.dic;
+                }
+                listView.ItemsSource = dic;
             }
-            listView.ItemsSource = dic;
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

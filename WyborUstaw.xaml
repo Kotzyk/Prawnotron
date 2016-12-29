@@ -5,15 +5,49 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Prawnotron"
         mc:Ignorable="d"
-        Title="WyborUstaw" Height="300" Width="300">
-    <Grid>
-        <CheckBox x:Name="checkBox_Rok" Content="Rok" HorizontalAlignment="Left" Margin="28,54,0,0" VerticalAlignment="Top" Height="23" Width="76"/>
-        <Label x:Name="label" Content="Podaj po jakich kryteriach chcesz szukać:" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top" Height="34" Width="274" HorizontalContentAlignment="Center"/>
-        <TextBox x:Name="textBox_Rok" IsEnabled="{Binding ElementName=checkBox_Rok, Path=IsChecked}" HorizontalAlignment="Left" Height="23" Margin="123,50,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="145" VerticalContentAlignment="Center"/>
-        <CheckBox x:Name="checkBox_Pozycja" Content="Pozycja" HorizontalAlignment="Left" Margin="28,84,0,0" VerticalAlignment="Top" Height="23" Width="76"/>
-        <TextBox x:Name="textBox_Pozycja" IsEnabled="{Binding IsChecked, ElementName=checkBox_Pozycja}" HorizontalAlignment="Left" Height="23" Margin="123,80,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="145" VerticalContentAlignment="Center"/>
-        <CheckBox x:Name="checkBox_Numer" Content="Numer" HorizontalAlignment="Left" Margin="28,116,0,0" VerticalAlignment="Top" Height="23" Width="76"/>
-        <TextBox x:Name="textBox_Numer" IsEnabled="{Binding IsChecked, ElementName=checkBox_Numer}" HorizontalAlignment="Left" Height="23" Margin="123,112,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="145" VerticalContentAlignment="Center"/>
-        <Button x:Name="button_dodaj" Content="Dodaj Kryteria" HorizontalAlignment="Left" Margin="107,241,0,0" VerticalAlignment="Top" Width="89" Click="button_dodaj_Click"/>
-    </Grid>
+        Title="WyborUstaw" Height="255.9" Width="342.4">
+    <ScrollViewer Margin="0,0,5.2,31.4" RenderTransformOrigin="0.5,0.5">
+        <ScrollViewer.RenderTransform>
+            <TransformGroup>
+                <ScaleTransform/>
+                <SkewTransform/>
+                <RotateTransform Angle="-0.069"/>
+                <TranslateTransform/>
+            </TransformGroup>
+        </ScrollViewer.RenderTransform>
+        <Grid Width="284" Height="568">
+            <CheckBox x:Name="checkBox_Rok" Content="Rok" HorizontalAlignment="Left" Margin="28,54,0,0" VerticalAlignment="Top" Height="23" Width="76"/>
+            <Label x:Name="label" Content="Podaj po jakich kryteriach chcesz szukać:" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top" Height="34" Width="274" HorizontalContentAlignment="Center"/>
+            <TextBox x:Name="textBox_Rok" IsEnabled="{Binding ElementName=checkBox_Rok, Path=IsChecked}" HorizontalAlignment="Left" Height="23" Margin="123,50,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="145" VerticalContentAlignment="Center"/>
+            <CheckBox x:Name="checkBox_Pozycja" Content="Pozycja" HorizontalAlignment="Left" Margin="28,84,0,0" VerticalAlignment="Top" Height="23" Width="76"/>
+            <TextBox x:Name="textBox_Pozycja" IsEnabled="{Binding IsChecked, ElementName=checkBox_Pozycja}" HorizontalAlignment="Left" Height="23" Margin="123,80,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="145" VerticalContentAlignment="Center"/>
+            <CheckBox x:Name="checkBox_Numer" Content="Numer" HorizontalAlignment="Left" Margin="28,116,0,0" VerticalAlignment="Top" Height="23" Width="76"/>
+            <TextBox x:Name="textBox_Numer" IsEnabled="{Binding IsChecked, ElementName=checkBox_Numer}" HorizontalAlignment="Left" Height="23" Margin="123,112,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="145" VerticalContentAlignment="Center"/>
+            <Button x:Name="button_dodaj" Content="Dodaj Kryteria" HorizontalAlignment="Left" Margin="100,539,0,0" VerticalAlignment="Top" Width="89" Click="button_dodaj_Click" Height="19"/>
+            <CheckBox x:Name="checkBox_Sygnatura" Content="Sygnatura" HorizontalAlignment="Left" Margin="28,146,0,0" VerticalAlignment="Top" Height="23" Width="76"/>
+            <TextBox x:Name="textBox_Sygnatura" IsEnabled="{Binding IsChecked, ElementName=checkBox_Sygnatura}" HorizontalAlignment="Left" Height="23" Margin="123,142,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="145" VerticalContentAlignment="Center"/>
+            <CheckBox x:Name="checkBox_DataWyd" Content="Data Wyd." HorizontalAlignment="Left" Margin="28,178,0,0" VerticalAlignment="Top" Height="23" Width="76"/>
+            <TextBox x:Name="textBox_DataWyd" IsEnabled="{Binding IsChecked, ElementName=checkBox_DataWyd}" HorizontalAlignment="Left" Height="23" Margin="123,174,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="145" VerticalContentAlignment="Center"/>
+            <CheckBox x:Name="checkBox_DataWej" Content="Data Wej." HorizontalAlignment="Left" Margin="28,210,0,0" VerticalAlignment="Top" Height="23" Width="76"/>
+            <TextBox x:Name="textBox_DataWej" IsEnabled="{Binding IsChecked, ElementName=checkBox_DataWej}" HorizontalAlignment="Left" Height="23" Margin="123,206,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="145" VerticalContentAlignment="Center"/>
+            <CheckBox x:Name="checkBox_Label" Content="Label" HorizontalAlignment="Left" Margin="28,274,0,0" VerticalAlignment="Top" Height="23" Width="76"/>
+            <TextBox x:Name="textBox_Label" IsEnabled="{Binding IsChecked, ElementName=checkBox_Label}" HorizontalAlignment="Left" Height="23" Margin="123,270,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="145" VerticalContentAlignment="Center"/>
+            <CheckBox x:Name="checkBox_Tytul" Content="Tytul" HorizontalAlignment="Left" Margin="28,306,0,0" VerticalAlignment="Top" Height="23" Width="76"/>
+            <TextBox x:Name="textBox_Tytul" IsEnabled="{Binding IsChecked, ElementName=checkBox_Tytul}" HorizontalAlignment="Left" Height="23" Margin="123,302,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="145" VerticalContentAlignment="Center"/>
+            <CheckBox x:Name="checkBox_TytulSkr" Content="Tyt skr." HorizontalAlignment="Left" Margin="28,337,0,0" VerticalAlignment="Top" Height="23" Width="76" RenderTransformOrigin="0.532,1.617"/>
+            <TextBox x:Name="textBox_TytulSkr" IsEnabled="{Binding IsChecked, ElementName=checkBox_TytulSkr}" HorizontalAlignment="Left" Height="23" Margin="123,333,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="145" VerticalContentAlignment="Center"/>
+            <CheckBox x:Name="checkBox_Autor" Content="Autor" HorizontalAlignment="Left" Margin="28,368,0,0" VerticalAlignment="Top" Height="23" Width="76" RenderTransformOrigin="0.532,1.617"/>
+            <TextBox x:Name="textBox_Autor" IsEnabled="{Binding IsChecked, ElementName=checkBox_Autor}" HorizontalAlignment="Left" Height="23" Margin="123,364,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="145" VerticalContentAlignment="Center"/>
+            <CheckBox x:Name="checkBox_Zrodlo" Content="Zrodlo" HorizontalAlignment="Left" Margin="28,400,0,0" VerticalAlignment="Top" Height="23" Width="76" RenderTransformOrigin="0.532,1.617"/>
+            <TextBox x:Name="textBox_Zrodlo" IsEnabled="{Binding IsChecked, ElementName=checkBox_Zrodlo}" HorizontalAlignment="Left" Height="23" Margin="123,396,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="145" VerticalContentAlignment="Center"/>
+            <CheckBox x:Name="checkBox_Kodeks" Content="Kodeks" HorizontalAlignment="Left" Margin="28,432,0,0" VerticalAlignment="Top" Height="23" Width="76" RenderTransformOrigin="0.532,1.617"/>
+            <TextBox x:Name="textBox_Kodeks" IsEnabled="{Binding IsChecked, ElementName=checkBox_Kodeks}" HorizontalAlignment="Left" Height="23" Margin="123,428,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="145" VerticalContentAlignment="Center"/>
+            <CheckBox x:Name="checkBox_LiczbaZal" Content="Licz. Zal." HorizontalAlignment="Left" Margin="28,466,0,0" VerticalAlignment="Top" Height="23" Width="76" RenderTransformOrigin="0.532,1.617"/>
+            <TextBox x:Name="textBox_LiczbaZal" IsEnabled="{Binding IsChecked, ElementName=checkBox_LiczbaZal}" HorizontalAlignment="Left" Height="23" Margin="123,462,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="145" VerticalContentAlignment="Center"/>
+            <CheckBox x:Name="checkBox_Typ" Content="Typ" HorizontalAlignment="Left" Margin="28,498,0,0" VerticalAlignment="Top" Height="23" Width="76" RenderTransformOrigin="0.532,1.617"/>
+            <TextBox x:Name="textBox_Typ" IsEnabled="{Binding IsChecked, ElementName=checkBox_Typ}" HorizontalAlignment="Left" Height="23" Margin="123,494,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="145" VerticalContentAlignment="Center"/>
+            <CheckBox x:Name="checkBox_DataPub" Content="Data Pub." HorizontalAlignment="Left" Margin="28,242,0,0" VerticalAlignment="Top" Height="23" Width="76" RenderTransformOrigin="0.532,1.617"/>
+            <TextBox x:Name="textBox_DataPub" IsEnabled="{Binding IsChecked, ElementName=checkBox_DataPub}" HorizontalAlignment="Left" Height="23" Margin="123,238,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="145" VerticalContentAlignment="Center"/>
+        </Grid>
+    </ScrollViewer>
 </Window>

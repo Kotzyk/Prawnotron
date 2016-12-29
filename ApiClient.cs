@@ -132,7 +132,7 @@ namespace Prawnotron
                     using (TextWriter sw = new StreamWriter($"../../Json/Ustawa_{i + 1}.json"))
                     {
                     sw.Write(podustawy[i]);
-                        }
+                    }
                     Ustawa u = Ustawa.ParseUstawa(i+1);
                     wynikiList.Add(u);
                 }); //Todo: exception handling
@@ -166,6 +166,10 @@ namespace Prawnotron
                 responseMessage = await Client.GetAsync(sb.ToString());
             }
             catch (HttpRequestException e)
+            {
+                Debug.Fail(e.Message);
+            }
+            catch (Exception e)
             {
                 Debug.Fail(e.Message);
             }
