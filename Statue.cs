@@ -66,5 +66,26 @@ namespace Prawnotron
             doc.LoadHtml(html);
             return doc;
         }
+          public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            foreach (var page in this.pages)
+            {
+                sb.Append(page);
+            }
+        
+            return sb.ToString();
+        }
+
+
+
+        public void Zapisz()
+        {
+            System.IO.StreamWriter file = new System.IO.StreamWriter("ustawa.txt", true);
+            file.WriteLine(this.ToString());
+            file.Close();
+
+        }
     }
 }
