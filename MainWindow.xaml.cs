@@ -1,31 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Prawnotron
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         List<Ustawa> _listaUst = new List<Ustawa>();
         readonly List<string> _listaTytulow = new List<string>();
-        Stopwatch stopwatch = new Stopwatch();
-        Dictionary<string, string> dic = new Dictionary<string, string>();
+        Stopwatch _stopwatch = new Stopwatch();
+        Dictionary<string, string> _dic = new Dictionary<string, string>();
 
+        /// <summary>
+        /// Konstruktor okna głównego, ustawia ItemSource okienka listy ustaw
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
@@ -34,11 +26,11 @@ namespace Prawnotron
 
         async void button_szukajUstawy_Click(object sender, RoutedEventArgs e)
         {
-            stopwatch.Reset();
-            stopwatch.Start();
+            _stopwatch.Reset();
+            _stopwatch.Start();
             try
             {
-                _listaUst = await ApiClient.SzukajAsync(dic);
+                _listaUst = await ApiClient.SzukajAsync(_dic);
                 Debug.WriteLine(_listaUst.Count);
                 foreach (Ustawa u in _listaUst)
                 {
@@ -52,10 +44,9 @@ namespace Prawnotron
             }
             finally
             {
-                stopwatch.Stop();
-                dic.Clear();
-                listView.Items.Refresh();
-                Debug.WriteLine(stopwatch.Elapsed);
+                _stopwatch.Stop();
+                ConditionsListView.Items.Refresh();
+                Debug.WriteLine(_stopwatch.Elapsed);
             }
         }
 
@@ -66,13 +57,17 @@ namespace Prawnotron
                 WyborUstaw wybor = new WyborUstaw();
                 if (wybor.ShowDialog() != null)
                 {
-                    dic = wybor.dic;
+                    _dic = WyborUstaw.Dic;
                 }
-                listView.ItemsSource = dic;
+                ConditionsListView.ItemsSource = _dic;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                ConditionsListView.Items.Refresh();
             }
         }
     }

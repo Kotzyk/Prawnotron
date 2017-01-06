@@ -120,7 +120,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="ClassDiagram1.cd" />
-    <None Include="dziennik_ustaw.json" />
     <None Include="Json\Ustawa_1.json" />
     <None Include="Json\Ustawa_10.json" />
     <None Include="Json\Ustawa_11.json" />
