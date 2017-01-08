@@ -87,5 +87,34 @@ namespace Prawnotron
             file.Close();
 
         }
+        public void Wyszukaj(string doc, string a)//probna funkcja do wyciagania zawartosci artykulow
+        {
+            //w mainie:
+            //  string test1 = "jahsdlj art. 3 ust. dhoisn djfdif dijd art. 4 ksjd";
+           // ustawa.Wyszukaj(test1, "3");
+            List<String> list = new List<String>();
+            string pattern = "art. " + a + " ust.";
+            int index = 0;
+            int num1 = Int32.Parse(a);
+            int num2 = num1 + 1;
+            string d = Convert.ToString(num2);
+            string pattern2 = "art. " + d;
+            while (true)
+
+            {
+                int b = doc.IndexOf(pattern, index);
+                if (b == -1)
+                    break;
+                index = b + pattern.Length;
+
+                int c = doc.IndexOf(pattern2, index);
+
+                list.Add(doc.Substring(index, c - index));
+                foreach (string line in list)
+                {
+                    Console.WriteLine(line);
+                }
+            }
+        }
     }
 }
