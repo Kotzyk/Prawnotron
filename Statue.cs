@@ -101,30 +101,30 @@ namespace Prawnotron
         /// </summary>
         /// <param name="doc"></param>
         /// <param name="a"></param>
-        public void Wyszukaj(string doc, string a)
+        public void Wyszukaj(string doc, string a)//ogarniemy pozniej zeby zwracało string 
         {
             var list = new List<string>();
-            string pattern = "Art. " + a;
-            var index = 0;
-            int num1 = int.Parse(a);
-            int num2 = num1 + 1;
-            string d = Convert.ToString(num2);
+            string pattern = "Art. " + a;  //tworzymy wzor1 który chcemy wyszukac w tekscie na przykład : "Art. 44"
+            var index = 0;              
+            int num1 = int.Parse(a);        //parsujemy podany nr artykulu w stringu na int, żeby dało sie go zwiekszyc o 1 i wykorzystac we wzorze2 (końcowym)
+            int num2 = num1 + 1;            //tworzymy numer artykulu nastepnego, którego juz ma nie wyciagac
+            string d = Convert.ToString(num2);  //numer artykulu konwertujemy na string by utworzyc wzor2 koncowy
             string pattern2 = "Art. " + d;
             while (true)
 
             {
-                int b = doc.IndexOf(pattern, index, StringComparison.Ordinal);
+                int b = doc.IndexOf(pattern, index, StringComparison.Ordinal);//szukamy indexu wzoru1 w tekscie
                 if (b == -1)
                     break;
                 index = b + pattern.Length;
 
-                int c = doc.IndexOf(pattern2, index, StringComparison.Ordinal);
+                int c = doc.IndexOf(pattern2, index, StringComparison.Ordinal);//szukamy indexu wzoru2 w tekscie
 
-                list.Add(pattern + doc.Substring(index, c - index));
+                list.Add(pattern + doc.Substring(index, c - index)); //dodajemy do listy fragment tekstu zawieracy wzor1 wraz z tekstem artykulu czyli np "Art. 44 blabla." konczący sie gdy napotka sie wzor2 czyli "Art. 45"
             }
             foreach (string line in list)
             {
-                Debug.WriteLine(line);
+                Debug.WriteLine(line);  //tutaj juz testowalysmy jak dziala
             }
         }
 
