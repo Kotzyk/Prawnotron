@@ -127,6 +127,24 @@ namespace Prawnotron
                 Debug.WriteLine(line);  //tutaj juz testowalysmy jak dziala
             }
         }
+        //Tak powinno wyglądac zapisywanie:
+                public void ZapiszPDF(string art)
+        {
+
+            FileStream fs = new FileStream("Art.pdf", FileMode.Create, FileAccess.Write, FileShare.None);
+
+
+            Document doc1 = new Document();
+
+            PdfWriter writer = PdfWriter.GetInstance(doc1, fs);
+
+            doc1.Open();
+
+            doc1.Add(new Paragraph(art));
+
+            doc1.Close();
+        }
+        //niestety nie dziala gdy laczymy to z wyciaganiem artykulow :( moze wy cos poradzicie
 
         /*static void Main(string[] args)
                 {
