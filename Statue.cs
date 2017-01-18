@@ -93,18 +93,13 @@ namespace Prawnotron
         /// <summary>
         /// 
         /// </summary>
-        public void Zapisz()
-        {
-            StreamWriter file = new StreamWriter("ustawa.txt", true);
-            file.WriteLine(ToString());
-            file.Close();
-        }
+      
         /// <summary>
         /// 
         /// </summary>
         /// <param name="doc"></param>
         /// <param name="a"></param>
-        public void Wyszukaj(string doc, string a)//ogarniemy pozniej zeby zwracało string 
+          public string Wyszukaj(string doc, string a)
         {
             var list = new List<string>();
             string pattern = "Art. " + a;  //tworzymy wzor1 który chcemy wyszukac w tekscie na przykład : "Art. 44"
@@ -129,26 +124,26 @@ namespace Prawnotron
             {
                 Debug.WriteLine(line);  //tutaj juz testowalysmy jak dziala
             }
+            return trescArt;
         }
-        //Tak powinno wyglądac zapisywanie:
-                public void ZapiszPDF(string art)
-        {
+        
+            public void Zapisz(string textToSave)
+            {
 
-            FileStream fs = new FileStream("Art.pdf", FileMode.Create, FileAccess.Write, FileShare.None);
+                FileStream fs = new FileStream("Artykuł.pdf", FileMode.Create, FileAccess.Write, FileShare.None);
 
 
-            Document doc1 = new Document();
+                Document doc = new Document();
 
-            PdfWriter writer = PdfWriter.GetInstance(doc1, fs);
+                PdfWriter writer = PdfWriter.GetInstance(doc, fs);
 
-            doc1.Open();
+                doc.Open();
 
-            doc1.Add(new Paragraph(art));
+                doc.Add(new Paragraph(textToSave));
 
-            doc1.Close();
-        }
-        //niestety nie dziala gdy laczymy to z wyciaganiem artykulow :( moze wy cos poradzicie
-
+                doc.Close();
+            }
+     
         /*static void Main(string[] args)
                 {
                     
@@ -163,7 +158,8 @@ namespace Prawnotron
         
                     }
                 
-                   ustawa.Wyszukaj(ustawaString, "44");
+                    ustawaString=ustawa.Wyszukaj(ustawaString, "44");
+            ustawa.Zapisz(ustawaString);
                  
         
                 Console.ReadKey();
