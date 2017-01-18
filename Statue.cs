@@ -4,6 +4,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using HtmlAgilityPack;
+using iTextSharp;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 
 namespace Prawnotron
 {
