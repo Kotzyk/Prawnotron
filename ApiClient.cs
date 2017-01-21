@@ -66,9 +66,8 @@ namespace Prawnotron
 
                 using (StreamWriter sw = File.CreateText("../../Json/ustawa_" + id + ".json"))
                 {
-                    JsonSerializer j = new JsonSerializer { Formatting = Formatting.Indented };
+                    JsonSerializer j = new JsonSerializer {Formatting = Formatting.Indented};
                     j.Serialize(sw, obj);
-
                 }
             }
         }
@@ -101,8 +100,12 @@ namespace Prawnotron
             string apiStr = Resources.DzU_Search;
             StringBuilder sb = new StringBuilder(apiStr);
 
-            foreach (var warunek in conds)
-                sb.Append($"&conditions[dziennik_ustaw.{warunek.Key}]={warunek.Value}");
+            foreach (KeyValuePair<string, string> warunek in conds)
+            {
+                if (warunek.Value != "" && warunek.Value != " ")
+                    sb.Append($"&conditions[dziennik_ustaw.{warunek.Key}]={warunek.Value}");
+            }
+
 
             HttpResponseMessage responseMessage = await Client.GetAsync(sb.ToString());
 
@@ -118,26 +121,23 @@ namespace Prawnotron
                 for (int i = 0; i < podustawy.Length; i++)
                 {
                     string temp = podustawy[i];
-                    if(i < (podustawy.Length -1))
+                    if (i < (podustawy.Length - 1))
                         temp = temp + "}}";
                     podustawy[i] = temp;
                 } //podustawy wczytuje poprawnie
-                for (int i = 0; i < podustawy.Length; i++)
+                Parallel.For(0, podustawy.Length, i =>
                 {
                     using (TextWriter sw = new StreamWriter($"../../Json/Ustawa_{i + 1}.json"))
                     {
-                       await sw.WriteAsync(podustawy[i]);
-                       await sw.FlushAsync();
+                        sw.Write(podustawy[i]);
                     }
-                }
-                for (int a = 1; a <= podustawy.Length; a++)
-                {
-                    Ustawa u = Ustawa.ParseUstawa(a);
+                    Ustawa u = Ustawa.ParseUstawa(i + 1);
                     wynikiList.Add(u);
-                }
+                }); //Todo: exception handling
             }
             return wynikiList;
         }
+
         //TODO: poprawne szukanie po ?q=
 
 
@@ -152,10 +152,9 @@ namespace Prawnotron
         /// <returns>Treść ustawy zapisana w pliku <c>HTML</c></returns>
         static async Task GetContentAsync(Ustawa ustawa)
         {
-            //Ciesz się, Piotrek
             byte counter = 1;
             HttpResponseMessage responseMessage = new HttpResponseMessage(HttpStatusCode.Accepted);
-            Stream trescStream = new FileStream("tresc" + ustawa.Id + ".html", FileMode.CreateNew);
+            TextWriter trescWriter = new StreamWriter($"tresc_{ustawa.Id}.html");
             StringBuilder sb = new StringBuilder(Resources.Base_API2);
 
             string adres = $"{ustawa.Dokument_Id}/{ustawa.Dokument_Id}_";
@@ -165,6 +164,10 @@ namespace Prawnotron
                 responseMessage = await Client.GetAsync(sb.ToString());
             }
             catch (HttpRequestException e)
+            {
+                Debug.Fail(e.Message);
+            }
+            catch (Exception e)
             {
                 Debug.Fail(e.Message);
             }
@@ -179,15 +182,17 @@ namespace Prawnotron
                 {
                     try
                     {
-                        responseMessage = await Client.GetAsync(sb.ToString());
-                        Stream content = await Client.GetStreamAsync(sb.ToString());
-                        content.CopyTo(trescStream);
+                        {
+                            await trescWriter.WriteAsync(await Client.GetStringAsync(sb.ToString()));
 
-                        //wyrażenia warunkowe na wypadek dwucyfrowej liczby stron
-                        sb.Replace(counter.ToString(), (counter + 1).ToString(),
-                            counter < 10 ? sb.Length - 6 : sb.Length - 7,
-                            counter < 10 ? 1 : 2);
-                        counter++;
+                            responseMessage = await Client.GetAsync(sb.ToString());
+
+                            //wyrażenia warunkowe na wypadek dwucyfrowej liczby stron
+                            sb.Replace(counter.ToString(), (counter + 1).ToString(),
+                                counter < 10 ? sb.Length - 6 : sb.Length - 7,
+                                counter < 10 ? 1 : 2);
+                            counter++;
+                        }
                     }
                     catch (HttpRequestException hEx)
                     {
@@ -197,10 +202,11 @@ namespace Prawnotron
                     {
                         Debug.Fail(e.Message);
                     }
+                    trescWriter.Close();
                 }
-                trescStream.Close();
-                #endregion
             }
+
+            #endregion
         }
     }
 }
