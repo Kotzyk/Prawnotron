@@ -17,6 +17,7 @@ namespace Prawnotron
 
         /// <summary>
         /// Konstruktor okna głównego, ustawia ItemSource okienka listy ustaw
+
         /// </summary>
         public MainWindow()
         {
