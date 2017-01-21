@@ -102,6 +102,7 @@ namespace Prawnotron
           public string Wyszukaj(string doc, string a)
         {
             var list = new List<string>();
+            string trescArt ="";
             string pattern = "Art. " + a;  //tworzymy wzor1 który chcemy wyszukac w tekscie na przykład : "Art. 44"
             var index = 0;              
             int num1 = int.Parse(a);        //parsujemy podany nr artykulu w stringu na int, żeby dało sie go zwiekszyc o 1 i wykorzystac we wzorze2 (końcowym)
@@ -122,6 +123,7 @@ namespace Prawnotron
             }
             foreach (string line in list)
             {
+                trescArt += line;
                 Debug.WriteLine(line);  //tutaj juz testowalysmy jak dziala
             }
             return trescArt;
