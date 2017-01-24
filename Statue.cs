@@ -128,7 +128,7 @@ namespace Prawnotron
             public void Zapisz(string textToSave)
             {
 
-                FileStream fs = new FileStream("Artykuł.pdf", FileMode.Create, FileAccess.Write, FileShare.None);
+                FileStream fs = new FileStream("../../artykuly/artykul.pdf", FileMode.Create, FileAccess.Write, FileShare.None);
 
 
                 Document doc = new Document();

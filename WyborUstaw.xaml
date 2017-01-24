@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Prawnotron"
         mc:Ignorable="d"
-        Title="WyborUstaw" Height="303.7" Width="342.4">
+        Title="WyborUstaw" Height="259.9" Width="342.4">
     <ScrollViewer Margin="0,0,5,31" RenderTransformOrigin="0.5,0.5">
         <ScrollViewer.RenderTransform>
             <TransformGroup>
@@ -23,7 +23,7 @@
             <TextBox x:Name="textBox_Pozycja" IsEnabled="{Binding IsChecked, ElementName=checkBox_Pozycja}" HorizontalAlignment="Left" Height="23" Margin="123,80,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="145" VerticalContentAlignment="Center"/>
             <CheckBox x:Name="checkBox_Numer" Content="Numer" HorizontalAlignment="Left" Margin="28,116,0,0" VerticalAlignment="Top" Height="23" Width="76"/>
             <TextBox x:Name="textBox_Numer" IsEnabled="{Binding IsChecked, ElementName=checkBox_Numer}" HorizontalAlignment="Left" Height="23" Margin="123,112,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="145" VerticalContentAlignment="Center"/>
-            <Button x:Name="button_dodaj" Content="Dodaj Kryteria" HorizontalAlignment="Left" Margin="154,534,0,0" VerticalAlignment="Top" Width="103" Click="button_dodaj_Click" Height="29" Cursor="Hand" IsDefault="True"/>
+            <Button x:Name="button_dodaj" Content="Dodaj Kryteria" HorizontalAlignment="Left" Margin="95,529,0,0" VerticalAlignment="Top" Width="103" Click="button_dodaj_Click" Height="29" Cursor="Hand" IsDefault="True"/>
             <CheckBox x:Name="checkBox_Sygnatura" Content="Sygnatura" HorizontalAlignment="Left" Margin="28,146,0,0" VerticalAlignment="Top" Height="23" Width="76"/>
             <TextBox x:Name="textBox_Sygnatura" IsEnabled="{Binding IsChecked, ElementName=checkBox_Sygnatura}" HorizontalAlignment="Left" Height="23" Margin="123,142,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="145" VerticalContentAlignment="Center"/>
             <CheckBox x:Name="checkBox_DataWyd" Content="Data Wyd." HorizontalAlignment="Left" Margin="28,178,0,0" VerticalAlignment="Top" Height="23" Width="76"/>
@@ -48,7 +48,6 @@
             <TextBox x:Name="textBox_Typ" IsEnabled="{Binding IsChecked, ElementName=checkBox_Typ}" HorizontalAlignment="Left" Height="23" Margin="123,494,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="145" VerticalContentAlignment="Center"/>
             <CheckBox x:Name="checkBox_DataPub" Content="Data Pub." HorizontalAlignment="Left" Margin="28,242,0,0" VerticalAlignment="Top" Height="23" Width="76" RenderTransformOrigin="0.532,1.617"/>
             <TextBox x:Name="textBox_DataPub" IsEnabled="{Binding IsChecked, ElementName=checkBox_DataPub}" HorizontalAlignment="Left" Height="23" Margin="123,238,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="145" VerticalContentAlignment="Center"/>
-            <Button x:Name="button_czysc" Content="Wyczyść" HorizontalAlignment="Left" Margin="29,538,0,0" VerticalAlignment="Top" Width="75" Click="button_czysc_Click"/>
         </Grid>
     </ScrollViewer>
 </Window>

@@ -189,10 +189,5 @@ namespace Prawnotron
                 Close();
             }
         }
-
-        private void button_czysc_Click(object sender, RoutedEventArgs e)
-        {
-            Dic.Clear();
-        }
     }
 }

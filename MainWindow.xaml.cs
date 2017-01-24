@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Controls;
+using System.Linq;
+using HtmlAgilityPack;
 
 namespace Prawnotron
 {
@@ -17,7 +20,6 @@ namespace Prawnotron
 
         /// <summary>
         /// Konstruktor okna głównego, ustawia ItemSource okienka listy ustaw
-
         /// </summary>
         public MainWindow()
         {
@@ -69,6 +71,23 @@ namespace Prawnotron
             finally
             {
                 ConditionsListView.Items.Refresh();
+            }
+        }
+
+        private void button_usun_Click(object sender, RoutedEventArgs e)
+        {
+            _dic.Clear();
+            ConditionsListView.Items.Refresh();
+        }
+
+        private async void button_getContent_Click(object sender, RoutedEventArgs e)
+        {
+            Ustawa ustawa = _listaUst.ElementAt(listBox_listaUstaw.SelectedIndex);
+            await ApiClient.GetContentAsync(ustawa);
+            Statue statue = new Statue($"../../tresci http/tresc_{ustawa.Id}.html");
+            foreach (string page in statue.Pages)
+            {
+                statue.Zapisz(page);
             }
         }
     }

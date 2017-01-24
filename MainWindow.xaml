@@ -5,20 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Prawnotron"
         mc:Ignorable="d"
-        Title="MainWindow" Height="480" Width="640">
-    <Grid>
+        Title="MainWindow" Height="553.4" Width="640">
+    <Grid Margin="0,0,-0.4,1">
         <Grid.RowDefinitions>
-            <RowDefinition Height="91*"/>
-            <RowDefinition Height="134*"/>
+            <RowDefinition Height="179*"/>
+            <RowDefinition Height="268*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="293*"/>
             <ColumnDefinition Width="341*"/>
         </Grid.ColumnDefinitions>
-        <ListBox x:Name="listBox_listaUstaw" HorizontalAlignment="Left" Height="356" Margin="42.2,61,0,0" VerticalAlignment="Top" Width="260" Grid.Column="1" Grid.RowSpan="2"/>
+        <ListBox x:Name="listBox_listaUstaw" HorizontalAlignment="Left" Height="356" Margin="42.2,61,0,0" VerticalAlignment="Top" Width="260" Grid.Column="1" Grid.RowSpan="2" SelectedIndex="0"/>
         <Label x:Name="label1" Content="Lista dostępnych ustaw:" HorizontalAlignment="Left" Margin="42.2,21,0,0" VerticalAlignment="Top" Width="260" FontSize="20" Grid.Column="1" Height="37"/>
-        <Button x:Name="button_szukajUstawy" Content="Szukaj" HorizontalAlignment="Left" Margin="66,180.6,0,0" VerticalAlignment="Top" Width="182" Height="54" Click="button_szukajUstawy_Click" Grid.Row="1" Cursor="Hand" IsDefault="True"/>
-        <Button x:Name="button_kryteria" Content="Dodaj kryteria wyszukiwania" HorizontalAlignment="Left" Margin="66,93.6,0,0" VerticalAlignment="Top" Width="182" Height="57" Click="button_dodaj_click" Grid.Row="1" Cursor="Hand"/>
+        <Button x:Name="button_szukajUstawy" Content="Szukaj" HorizontalAlignment="Left" Margin="66,153.4,0,0" VerticalAlignment="Top" Width="182" Height="54" Click="button_szukajUstawy_Click" Grid.Row="1" Cursor="Hand" IsDefault="True"/>
+        <Button x:Name="button_kryteria" Content="Dodaj kryteria" HorizontalAlignment="Left" Margin="181,69.4,0,0" VerticalAlignment="Top" Width="102" Height="34" Click="button_dodaj_click" Grid.Row="1" Cursor="Hand"/>
         <Label x:Name="label" Content="Wybrane kryteria:" HorizontalAlignment="Left" Margin="39,21,0,0" VerticalAlignment="Top" Height="34" Width="238" FontSize="20"/>
         <ListView x:Name="ConditionsListView" HorizontalAlignment="Left" Height="192" Margin="39,61,0,0" VerticalAlignment="Top" Width="244" Grid.RowSpan="2">
             <ListView.View>
@@ -28,6 +28,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-
+        <Button x:Name="button_usun" Content="Usun kryteria" HorizontalAlignment="Left" Margin="39,69.4,0,0" Grid.Row="1" VerticalAlignment="Top" Width="99" Height="34" Click="button_usun_Click"/>
+        <Button x:Name="button_getContent" Content="Zapisz do PDF" Grid.Column="1" HorizontalAlignment="Left" Margin="111.2,234.4,0,0" Grid.Row="1" VerticalAlignment="Top" Width="117" RenderTransformOrigin="-0.221,0.135" Height="38" Click="button_getContent_Click"/>
     </Grid>
 </Window>

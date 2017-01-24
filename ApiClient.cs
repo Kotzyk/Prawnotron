@@ -150,15 +150,16 @@ namespace Prawnotron
         /// </summary>
         /// <param name="ustawa"><see cref="Ustawa"/>, której treść pobieramy</param>
         /// <returns>Treść ustawy zapisana w pliku <c>HTML</c></returns>
-        static async Task GetContentAsync(Ustawa ustawa)
+        public static async Task GetContentAsync(Ustawa ustawa)
         {
             byte counter = 1;
             HttpResponseMessage responseMessage = new HttpResponseMessage(HttpStatusCode.Accepted);
-            TextWriter trescWriter = new StreamWriter($"tresc_{ustawa.Id}.html");
+            TextWriter trescWriter = new StreamWriter($"../../tresci http/tresc_{ustawa.Id}.html");
             StringBuilder sb = new StringBuilder(Resources.Base_API2);
 
             string adres = $"{ustawa.Dokument_Id}/{ustawa.Dokument_Id}_";
             sb.Append(adres + counter + ".html");
+            
             try
             {
                 responseMessage = await Client.GetAsync(sb.ToString());
@@ -175,16 +176,15 @@ namespace Prawnotron
             //https://api-v3.mojepanstwo.pl/dane/dziennik_ustaw?conditions[dziennik_ustaw.poz]=1485&conditions[dziennik_ustaw.nr]=179&conditions[dziennik_ustaw.rok]=2005
 
             #region DownloadRegion
-
             while (responseMessage.IsSuccessStatusCode)
             {
+                Debug.WriteLine("XD");
                 using (Client)
                 {
                     try
                     {
                         {
                             await trescWriter.WriteAsync(await Client.GetStringAsync(sb.ToString()));
-
                             responseMessage = await Client.GetAsync(sb.ToString());
 
                             //wyrażenia warunkowe na wypadek dwucyfrowej liczby stron
@@ -205,7 +205,6 @@ namespace Prawnotron
                     trescWriter.Close();
                 }
             }
-
             #endregion
         }
     }
