@@ -95,13 +95,14 @@ namespace Prawnotron
             Ustawa ustawa = _listaUst.ElementAt(listBox_listaUstaw.SelectedIndex);
             button_getContent.IsEnabled = false;
             _listaTytulow.Clear();
-            /*await ApiClient.GetContentAsync(ustawa);
-            Statue statue = new Statue($"../../tresci http/tresc_{ustawa.Id}.html");
+            await ApiClient.GetContentAsync(ustawa);
+            /*
+            Statue statue = new Statue($"../../tresci http/tresc_{ustawa.Dokument_Id}.html");
             foreach (string page in statue.Pages)
             {
                 statue.Zapisz(page);
-            }*/
-            
+            }
+            */
         }
         
     }
