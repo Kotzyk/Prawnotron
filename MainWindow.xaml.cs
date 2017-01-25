@@ -25,6 +25,7 @@ namespace Prawnotron
         {
             InitializeComponent();
             listBox_listaUstaw.ItemsSource = _listaTytulow;
+            button_szukajUstawy.IsEnabled = false;
         }
 
         async void button_szukajUstawy_Click(object sender, RoutedEventArgs e)
@@ -41,14 +42,15 @@ namespace Prawnotron
                 }
                 listBox_listaUstaw.Items.Refresh();
             }
-            catch (Exception ex)
+            catch (NullReferenceException)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Nie znaleziono ustawy o zadanych kryteriach", "Nie znaleziono ustawy", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {
                 _stopwatch.Stop();
                 ConditionsListView.Items.Refresh();
+                button_getContent.IsEnabled = true;
                 Debug.WriteLine(_stopwatch.Elapsed);
             }
         }
@@ -70,6 +72,10 @@ namespace Prawnotron
             }
             finally
             {
+                if(_dic.Count != 0)
+                {
+                    button_szukajUstawy.IsEnabled = true;
+                }
                 ConditionsListView.Items.Refresh();
             }
         }
@@ -77,18 +83,26 @@ namespace Prawnotron
         private void button_usun_Click(object sender, RoutedEventArgs e)
         {
             _dic.Clear();
+            _listaTytulow.Clear();
+            button_szukajUstawy.IsEnabled = false;
+            button_getContent.IsEnabled = false;
+            listBox_listaUstaw.Items.Refresh();
             ConditionsListView.Items.Refresh();
         }
 
         private async void button_getContent_Click(object sender, RoutedEventArgs e)
         {
             Ustawa ustawa = _listaUst.ElementAt(listBox_listaUstaw.SelectedIndex);
-            await ApiClient.GetContentAsync(ustawa);
+            button_getContent.IsEnabled = false;
+            _listaTytulow.Clear();
+            /*await ApiClient.GetContentAsync(ustawa);
             Statue statue = new Statue($"../../tresci http/tresc_{ustawa.Id}.html");
             foreach (string page in statue.Pages)
             {
                 statue.Zapisz(page);
-            }
+            }*/
+            
         }
+        
     }
 }

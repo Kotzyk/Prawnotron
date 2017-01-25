@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 
 namespace Prawnotron
@@ -15,30 +18,37 @@ namespace Prawnotron
         /// </summary>
         /// <seealso cref="Ustawa"/>
         public static Dictionary<string, string> Dic = new Dictionary<string, string>();
-
+        static int rokPocz = 1918; //rok od ktorego zaczynaja pojawiac sie ustawy
+        static int liczbaLat = (DateTime.Now.Year - 1918)+1; //aby w comboboxie bylo do roku w ktorym odpalamy program
+        static int[] lata = Enumerable.Range(rokPocz, liczbaLat).ToArray(); //tablica z latami
+        static string[] typy = { "Obwieszczenie", "Rozporządzenie", "Ustawa", "Oświadczenie", "Poprawki", "Uchwała", "Dekret", "Zarządzenie" }; //tablica z typami ustaw
         /// <summary>
         /// Konstruktor okna
         /// </summary>
         public WyborUstaw()
         {
             InitializeComponent();
+            foreach (var year in lata)
+            {
+                comboBox_Rok.Items.Add(year);
+            }
+            foreach (string typ in typy)
+            {
+                comboBox_Typ.Items.Add(typ);
+            }
         }
 
         private void button_dodaj_Click(object sender, RoutedEventArgs e)
         {
-            int liczbaZal;
-
             try
             {
                 #region checkboxes
-
                 if (checkBox_Rok.IsChecked == true)
                 {
                     int rok;
-                    if (int.TryParse(textBox_Rok.Text, out rok))
+                    if (int.TryParse(comboBox_Rok.Text, out rok))
                     {
-                        Dic.Add("rok", rok.ToString());
-                      
+                        Dic["rok"] = rok.ToString();
                     }
                     else
                     {
@@ -48,145 +58,88 @@ namespace Prawnotron
                 if (checkBox_Pozycja.IsChecked == true)
                 {
                     int pozycja;
-                    if (int.TryParse(textBox_Pozycja.Text, out pozycja))
+                    if (!int.TryParse(textBox_Pozycja.Text, out pozycja) || string.IsNullOrWhiteSpace(textBox_Pozycja.Text))
                     {
-                        Dic["poz"] = pozycja.ToString();
+                        MessageBox.Show("Wprowadzona wartosc nie jest numeryczna!", "Blad w pozycji");
+                    }
+                    else if (Int32.Parse(textBox_Pozycja.Text) <= 0 || Int32.Parse(textBox_Pozycja.Text) > 5010)
+                    {
+                        MessageBox.Show("Wpowadz wartosc pomiedzy 1 a 5010");
                     }
                     else
                     {
-                        MessageBox.Show("Wprowadzona wartosc nie jest numeryczna!", "Blad w pozycji");
+                        Dic["poz"] = pozycja.ToString();
                     }
                 }
                 if (checkBox_Numer.IsChecked == true)
                 {
                     int numer;
-                    if (int.TryParse(textBox_Numer.Text, out numer))
-                    {
-                        Dic.Add("nr", numer.ToString());
-                    }
-                    else
+                    if (!int.TryParse(textBox_Numer.Text, out numer) || string.IsNullOrWhiteSpace(textBox_Numer.Text))
                     {
                         MessageBox.Show("Wprowadzona wartosc nie jest numeryczna!", "Blad w numerze");
                     }
-                }
-                if (checkBox_Sygnatura.IsChecked == true)
-                    if (textBox_Sygnatura.Text != "TextBox")
+                    else if (Int32.Parse(textBox_Numer.Text) < 0 || Int32.Parse(textBox_Numer.Text) > 299)
                     {
-                        Dic.Add("sygnatura", textBox_Sygnatura.Text);
+                        MessageBox.Show("Wpowadz wartosc pomiedzy 0 a 299");
                     }
                     else
                     {
-                        MessageBox.Show("Zaznaczono i nie wprowadzono wartosci!", "Blad w sygnaturze");
+                        Dic["nr"] = numer.ToString();
                     }
+                }
                 DateTime data;
                 if (checkBox_DataWyd.IsChecked == true)
-                    if (DateTime.TryParseExact(textBox_DataWyd.Text, "yyyy-MM-dd", CultureInfo.CurrentCulture, DateTimeStyles.None, out data))
+                    if (DateTime.TryParseExact(Data_Wyd_Picker.Text, "yyyy-MM-dd", CultureInfo.CurrentCulture, DateTimeStyles.None, out data))
                     {
-                        Dic.Add("data_wydania", data.ToString("yyyy-MM-dd"));
-                    }
-                    else
-                    {
-                        MessageBox.Show("Nieprawidlowy format daty, sprobuj rok-miesiac-dzien!", "Blad w dacie wydania");
+                        Dic["data_wydania"] = data.ToString("yyyy-MM-dd");
                     }
                 if (checkBox_DataWej.IsChecked == true)
-                    if (DateTime.TryParseExact(textBox_DataWej.Text, "yyyy-MM-dd", CultureInfo.CurrentCulture, DateTimeStyles.None, out data))
+                    if (DateTime.TryParseExact(Data_Wej_Picker.Text, "yyyy-MM-dd", CultureInfo.CurrentCulture, DateTimeStyles.None, out data))
                     {
-                        Dic.Add("data_wejscia_w_zycie", data.ToString("yyyy-MM-dd"));
-                    }
-                    else
-                    {
-                        MessageBox.Show("Nieprawidlowy format daty, sprobuj rok-miesiac-dzien!", "Blad w dacie wejscia");
+                        Dic["data_wejscia_w_zycie"] = data.ToString("yyyy-MM-dd");
                     }
                 if (checkBox_DataPub.IsChecked == true)
-                    if (DateTime.TryParseExact(textBox_DataPub.Text, "yyyy-MM-dd", CultureInfo.CurrentCulture, DateTimeStyles.None, out data))
+                    if (DateTime.TryParseExact(Data_Pub_Picker.Text, "yyyy-MM-dd", CultureInfo.CurrentCulture, DateTimeStyles.None, out data))
                     {
-                        Dic.Add("data_publikacji", data.ToString("yyyy-MM-dd"));
-                    }
-                    else
-                    {
-                        MessageBox.Show("Nieprawidlowy format daty, sprobuj rok-miesiac-dzien!", "Blad w dacie publikacji");
-                    }
-                if (checkBox_Label.IsChecked == true)
-                    if (textBox_Label.Text != "TextBox")
-                    {
-                        Dic.Add("label", textBox_Label.Text);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Zaznaczono i nie wprowadzono wartosci!", "Blad w labelu");
-                    }
-                if (checkBox_Tytul.IsChecked == true)
-                    if (textBox_Tytul.Text != "TextBox")
-                    {
-                        Dic.Add("tytul", textBox_Tytul.Text);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Zaznaczono i nie wprowadzono wartosci!", "Blad w tytule");
-                    }
-                if (checkBox_TytulSkr.IsChecked == true)
-                    if (textBox_TytulSkr.Text != "TextBox")
-                    {
-                        Dic.Add("tytul_skrocony", textBox_TytulSkr.Text);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Zaznaczono i nie wprowadzono wartosci!", "Blad w tytule skroconym");
+                        Dic["data_publikacji"] = data.ToString("yyyy-MM-dd");
                     }
                 if (checkBox_Autor.IsChecked == true)
-                    if (textBox_Autor.Text != "TextBox")
+                {
+                    Regex autor = new Regex(@"[A-Z]{1}\w+");
+                    if (autor.IsMatch(textBox_Autor.Text))
                     {
-                        Dic.Add("autor_nazwa", textBox_Autor.Text);
+                        Dic["autor_nazwa"] = textBox_Autor.Text.ToString();
                     }
                     else
                     {
-                        MessageBox.Show("Zaznaczono i nie wprowadzono wartosci!", "Blad w autorze");
+                        MessageBox.Show("Nazwa autora jest niepoprawna!", "Blad w autorze");
                     }
-                if (checkBox_Zrodlo.IsChecked == true)
-                    if (textBox_Zrodlo.Text != "TextBox")
-                    {
-                        Dic.Add("zrodlo", textBox_Zrodlo.Text);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Zaznaczono i nie wprowadzono wartosci!", "Blad w zrodle");
-                    }
-                if (checkBox_Kodeks.IsChecked == true)
-                    if (textBox_Kodeks.Text != "TextBox")
-                    {
-                        Dic.Add("kodeks", textBox_Kodeks.Text);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Zaznaczono i nie wprowadzono wartosci!", "Blad w kodeksie");
-                    }
-                if (checkBox_LiczbaZal.IsChecked == true)
-                    if (int.TryParse(textBox_LiczbaZal.Text, out liczbaZal))
-                    {
-                        Dic.Add("liczba_zalacznikow", liczbaZal.ToString());
-                    }
-                    else
-                    {
-                        MessageBox.Show("Wprowadzona wartosc nie jest wartoscia numeryczna!", "Blad w liczbie zal");
-                    }
+                }
                 if (checkBox_Typ.IsChecked == true)
-                    if (textBox_Typ.Text != "TextBox")
+                {
+                    if (!string.IsNullOrWhiteSpace(comboBox_Typ.Text))
                     {
-                        Dic.Add("typ_nazwa", textBox_Typ.Text);
+                        Dic["typ_nazwa"] = comboBox_Typ.Text.ToString();
                     }
                     else
                     {
-                        MessageBox.Show("Zaznaczono i nie wprowadzono wartosci!", "Blad w typie");
+                        MessageBox.Show("Nie wprowadzono typu!", "Blad w typie");
                     }
+                }
             #endregion
             }
             catch(Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-            finally
+            if(Dic.Count != 0)
             {
-                Close();
+                this.Close();
+            }
+            else
+            {
+                if(MessageBox.Show("Chcesz poprawic kryteria?", "Blad kryteriow", MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
+                    this.Close();
             }
         }
     }

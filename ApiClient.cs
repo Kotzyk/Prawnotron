@@ -90,7 +90,10 @@ namespace Prawnotron
         public static async Task<List<Ustawa>> SzukajAsync(Dictionary<string, string> conds)
         {
             //check if null
-            if (conds == null) throw new ArgumentNullException(nameof(conds));
+            if (conds == null)
+            {
+                throw new ArgumentNullException(nameof(conds)); 
+            }
             //check if empty
             if (conds.Count == 0)
                 throw new ArgumentException(Resources.cannot_be_an_empty_collection, nameof(conds));
@@ -106,34 +109,43 @@ namespace Prawnotron
                     sb.Append($"&conditions[dziennik_ustaw.{warunek.Key}]={warunek.Value}");
             }
 
-
-            HttpResponseMessage responseMessage = await Client.GetAsync(sb.ToString());
-
-            if (responseMessage.IsSuccessStatusCode)
+            try
             {
-                string ustawa = await responseMessage.Content.ReadAsStringAsync();
-                Regex rgx = new Regex(@"\{.*\[");
-                ustawa = rgx.Replace(ustawa, "");
-                Regex rgx2 = new Regex(@"\]\,.\w{5}.*\}\}");
-                ustawa = rgx2.Replace(ustawa, "");
-                string[] podustawy = Regex.Split(ustawa, @"\}\}\,");
+                HttpResponseMessage responseMessage = await Client.GetAsync(sb.ToString());
+                if (responseMessage.IsSuccessStatusCode)
+                {
+                    string ustawa = await responseMessage.Content.ReadAsStringAsync();
+                    Regex rgx = new Regex(@"\{.*\[");
+                    ustawa = rgx.Replace(ustawa, "");
+                    Regex rgx2 = new Regex(@"\]\,.\w{5}.*\}\}");
+                    ustawa = rgx2.Replace(ustawa, "");
+                    string[] podustawy = Regex.Split(ustawa, @"\}\}\,");
 
-                for (int i = 0; i < podustawy.Length; i++)
-                {
-                    string temp = podustawy[i];
-                    if (i < (podustawy.Length - 1))
-                        temp = temp + "}}";
-                    podustawy[i] = temp;
-                } //podustawy wczytuje poprawnie
-                Parallel.For(0, podustawy.Length, i =>
-                {
-                    using (TextWriter sw = new StreamWriter($"../../Json/Ustawa_{i + 1}.json"))
+                    for (int i = 0; i < podustawy.Length; i++)
                     {
-                        sw.Write(podustawy[i]);
-                    }
-                    Ustawa u = Ustawa.ParseUstawa(i + 1);
-                    wynikiList.Add(u);
-                }); //Todo: exception handling
+                        string temp = podustawy[i];
+                        if (i < (podustawy.Length - 1))
+                            temp = temp + "}}";
+                        podustawy[i] = temp;
+                    } //podustawy wczytuje poprawnie
+                    Parallel.For(0, podustawy.Length, i =>
+                    {
+                        using (TextWriter sw = new StreamWriter($"../../Json/Ustawa_{i + 1}.json"))
+                        {
+                            sw.Write(podustawy[i]);
+                        }
+                        Ustawa u = Ustawa.ParseUstawa(i + 1);
+                        wynikiList.Add(u);
+                    }); //Todo: exception handling
+                }
+                else
+                {
+                    wynikiList = new List<Ustawa>();
+                }
+            }
+            catch (Exception e)
+            {
+                throw;
             }
             return wynikiList;
         }
