@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Prawnotron.Properties;
 using System.Text.RegularExpressions;
+using System.Windows;
 
 namespace Prawnotron
 {
@@ -166,57 +167,58 @@ namespace Prawnotron
         {
             byte counter = 1;
             HttpResponseMessage responseMessage = new HttpResponseMessage(HttpStatusCode.Accepted);
-            TextWriter trescWriter = new StreamWriter($"../../tresci http/tresc_{ustawa.Id}.html");
-            StringBuilder sb = new StringBuilder(Resources.Base_API2);
-
-            string adres = $"{ustawa.Dokument_Id}/{ustawa.Dokument_Id}_";
-            sb.Append(adres + counter + ".html");
-            
+            var s = Resources.Base_API2 + $"{ustawa.Dokument_Id}/{ustawa.Dokument_Id}_{counter}.html";
+            Uri adres = new Uri(s);
+            var tresc = "";
             try
             {
-                responseMessage = await Client.GetAsync(sb.ToString());
+                //responseMessage = await Client.GetAsync(adres);
+                Debug.WriteLine("tu jestem XD");
             }
             catch (HttpRequestException e)
             {
-                Debug.Fail(e.Message);
+                MessageBox.Show(e.Message);
+                
             }
             catch (Exception e)
             {
-                Debug.Fail(e.Message);
+                Debug.WriteLine(e.Message);
             }
-            //przykład wyszukiwania konkretnej ustawy znając sygnaturę Dz.U (Ustawa o przeciwdziałaniu narkomanii, HTML ma 6 stron treści)
-            //https://api-v3.mojepanstwo.pl/dane/dziennik_ustaw?conditions[dziennik_ustaw.poz]=1485&conditions[dziennik_ustaw.nr]=179&conditions[dziennik_ustaw.rok]=2005
-
+            
             #region DownloadRegion
+            Debug.WriteLine("teraz tutaj");
             while (responseMessage.IsSuccessStatusCode)
             {
                 Debug.WriteLine("XD");
-                using (Client)
+                using(WebClient client2 = new WebClient())
                 {
                     try
                     {
-                        {
-                            await trescWriter.WriteAsync(await Client.GetStringAsync(sb.ToString()));
-                            responseMessage = await Client.GetAsync(sb.ToString());
-
-                            //wyrażenia warunkowe na wypadek dwucyfrowej liczby stron
-                            sb.Replace(counter.ToString(), (counter + 1).ToString(),
-                                counter < 10 ? sb.Length - 6 : sb.Length - 7,
-                                counter < 10 ? 1 : 2);
+                        //client2.DownloadFile(adres, $"../../tresci http/tresc_{ustawa.Dokument_Id}.html");
+                            tresc += client2.DownloadString(adres);
                             counter++;
-                        }
+
+                            responseMessage = await Client.GetAsync(adres);
+                        
                     }
                     catch (HttpRequestException hEx)
                     {
-                        Debug.Fail(hEx.Message);
+                        MessageBox.Show(hEx.Message);
+                    }
+                    catch (WebException we)
+                    {
+                        MessageBox.Show("Sie popsuło\n" + we.Message);
                     }
                     catch (Exception e)
                     {
-                        Debug.Fail(e.Message);
+                       MessageBox.Show(e.Message);
                     }
-                    trescWriter.Close();
-                }
+               }
             }
+            
+            Debug.WriteLine("zapisuję");
+            //File.WriteAllText($"../../tresci http/tresc_{ustawa.Dokument_Id}.html", tresc);
+            Debug.WriteLine("zapisane");
             #endregion
         }
     }
