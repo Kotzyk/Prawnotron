@@ -29,6 +29,6 @@
             </ListView.View>
         </ListView>
         <Button x:Name="button_usun" Content="Usun kryteria" HorizontalAlignment="Left" Margin="39,69.4,0,0" Grid.Row="1" VerticalAlignment="Top" Width="99" Height="34" Click="button_usun_Click"/>
-        <Button x:Name="button_getContent" Content="Zapisz do PDF" Grid.Column="1" HorizontalAlignment="Left" Margin="111.2,234.4,0,0" Grid.Row="1" VerticalAlignment="Top" Width="117" RenderTransformOrigin="-0.221,0.135" Height="38" Click="button_getContent_Click" IsEnabled="False"/>
+        <Button x:Name="button_szczegoly" Content="Pokaz szczegoly" Grid.Column="1" HorizontalAlignment="Left" Margin="111.2,234.4,0,0" Grid.Row="1" VerticalAlignment="Top" Width="117" RenderTransformOrigin="-0.221,0.135" Height="38" Click="button_szczegoly_Click" IsEnabled="False" ToolTip="Pokazuje szczegoly wybranej ustawy i umozliwia zapis do PDF"/>
     </Grid>
 </Window>

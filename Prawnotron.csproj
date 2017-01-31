@@ -100,6 +100,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Statue.cs" />
+    <Compile Include="SzczegolyUstawy.xaml.cs">
+      <DependentUpon>SzczegolyUstawy.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ustawa.cs" />
     <Compile Include="WyborUstaw.xaml.cs">
       <DependentUpon>WyborUstaw.xaml</DependentUpon>
@@ -117,6 +120,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="SzczegolyUstawy.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="WyborUstaw.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

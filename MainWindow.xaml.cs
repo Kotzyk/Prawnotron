@@ -50,7 +50,7 @@ namespace Prawnotron
             {
                 _stopwatch.Stop();
                 ConditionsListView.Items.Refresh();
-                button_getContent.IsEnabled = true;
+                button_szczegoly.IsEnabled = true;
                 Debug.WriteLine(_stopwatch.Elapsed);
             }
         }
@@ -85,24 +85,40 @@ namespace Prawnotron
             _dic.Clear();
             _listaTytulow.Clear();
             button_szukajUstawy.IsEnabled = false;
-            button_getContent.IsEnabled = false;
+            button_szczegoly.IsEnabled = false;
             listBox_listaUstaw.Items.Refresh();
             ConditionsListView.Items.Refresh();
         }
 
-        private async void button_getContent_Click(object sender, RoutedEventArgs e)
+        private void button_szczegoly_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                SzczegolyUstawy szcz = new SzczegolyUstawy();
+                if (szcz.ShowDialog() != null)
+                {
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        /*private async void button_getContent_Click(object sender, RoutedEventArgs e)
         {
             Ustawa ustawa = _listaUst.ElementAt(listBox_listaUstaw.SelectedIndex);
             button_getContent.IsEnabled = false;
             _listaTytulow.Clear();
-            /*await ApiClient.GetContentAsync(ustawa);
+            await ApiClient.GetContentAsync(ustawa);
             Statue statue = new Statue($"../../tresci http/tresc_{ustawa.Id}.html");
             foreach (string page in statue.Pages)
             {
                 statue.Zapisz(page);
-            }*/
+            }
             
-        }
-        
+        }*/
+
     }
 }
