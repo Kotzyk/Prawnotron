@@ -13,7 +13,7 @@ namespace Prawnotron
     /// </summary>
     public partial class MainWindow
     {
-        List<Ustawa> _listaUst = new List<Ustawa>();
+        public List<Ustawa> _listaUst = new List<Ustawa>();
         readonly List<string> _listaTytulow = new List<string>();
         Stopwatch _stopwatch = new Stopwatch();
         Dictionary<string, string> _dic = new Dictionary<string, string>();
@@ -94,7 +94,8 @@ namespace Prawnotron
         {
             try
             {
-                SzczegolyUstawy szcz = new SzczegolyUstawy();
+                Ustawa ustawa = _listaUst.ElementAt(listBox_listaUstaw.SelectedIndex);
+                SzczegolyUstawy szcz = new SzczegolyUstawy(ustawa);
                 if (szcz.ShowDialog() != null)
                 {
                     
@@ -111,14 +112,14 @@ namespace Prawnotron
             Ustawa ustawa = _listaUst.ElementAt(listBox_listaUstaw.SelectedIndex);
             button_getContent.IsEnabled = false;
             _listaTytulow.Clear();
-            /*await ApiClient.GetContentAsync(ustawa);
-            Statue statue = new Statue($"../../tresci http/tresc_{ustawa.Id}.html");
-            foreach (string page in statue.Pages)
-            {
-                statue.Zapisz(page);
-            }*/
-            
-        }
+            await ApiClient.GetContentAsync(ustawa);
+              
+              Statue statue = new Statue($"../../tresci http/tresc_{ustawa.Dokument_Id}.html");
+              foreach (string page in statue.Pages)
+              {
+                  statue.Zapisz(page);
+              } 
+        }*/
         
     }
 }

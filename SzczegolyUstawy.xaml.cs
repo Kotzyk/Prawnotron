@@ -23,5 +23,20 @@ namespace Prawnotron
         {
             InitializeComponent();
         }
+        public SzczegolyUstawy(Ustawa u):this()
+        {
+            textBox_tytul.Text = u.Tytul;
+            textBox_nr.Text = u.Nr.ToString();
+            textBox_autor.Text = u.Autor_Nazwa;
+            textBox_label.Text = u.Label;
+            textBox_dataPub.Text = u.Data_Publikacji;
+            textBox_dataWyd.Text = u.Data_Wydania;
+            textBox_DataWej.Text = u.Data_Wejscia_W_Zycie;
+            textBox_Pozycja.Text = u.Poz.ToString();
+            textBox_Syg.Text = u.Sygnatura;
+            /*
+            u.Typ_nazwa;
+            u.Zrodlo;*/
+        }
     }
 }

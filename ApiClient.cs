@@ -146,7 +146,7 @@ namespace Prawnotron
             }
             catch (Exception e)
             {
-                throw;
+                throw e;
             }
             return wynikiList;
         }
