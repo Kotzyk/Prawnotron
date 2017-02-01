@@ -32,11 +32,12 @@ namespace Prawnotron
             textBox_dataPub.Text = u.Data_Publikacji;
             textBox_dataWyd.Text = u.Data_Wydania;
             textBox_DataWej.Text = u.Data_Wejscia_W_Zycie;
-            textBox_Pozycja.Text = u.Poz.ToString();
             textBox_Syg.Text = u.Sygnatura;
-            /*
-            u.Typ_nazwa;
-            u.Zrodlo;*/
+        }
+
+        private void button_Zapisz_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO: Wyciąganie artykułów (jak, gdzie?) i zapisywanie do PDF.
         }
     }
 }
