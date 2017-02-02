@@ -99,6 +99,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="KryteriaWindow.xaml.cs">
+      <DependentUpon>KryteriaWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Statue.cs" />
     <Compile Include="SzczegolyUstawy.xaml.cs">
       <DependentUpon>SzczegolyUstawy.xaml</DependentUpon>
@@ -107,6 +110,10 @@
     <Compile Include="WyborUstaw.xaml.cs">
       <DependentUpon>WyborUstaw.xaml</DependentUpon>
     </Compile>
+    <Page Include="KryteriaWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -176,6 +183,12 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\tlo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\BlueSquareButton.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

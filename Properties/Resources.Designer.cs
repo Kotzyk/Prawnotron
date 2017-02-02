@@ -79,6 +79,16 @@ namespace Prawnotron.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap BlueSquareButton {
+            get {
+                object obj = ResourceManager.GetObject("BlueSquareButton", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Value cannot be an empty collection..
         /// </summary>
         internal static string cannot_be_an_empty_collection {
@@ -102,6 +112,16 @@ namespace Prawnotron.Properties {
         internal static System.Drawing.Bitmap pytajnik {
             get {
                 object obj = ResourceManager.GetObject("pytajnik", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tlo {
+            get {
+                object obj = ResourceManager.GetObject("tlo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

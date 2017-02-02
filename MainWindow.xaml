@@ -6,29 +6,14 @@
         xmlns:local="clr-namespace:Prawnotron"
         mc:Ignorable="d"
         Title="MainWindow" Height="553.4" Width="640">
-    <Grid Margin="0,0,-0.4,1">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="179*"/>
-            <RowDefinition Height="268*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="293*"/>
-            <ColumnDefinition Width="341*"/>
-        </Grid.ColumnDefinitions>
-        <ListBox x:Name="listBox_listaUstaw" HorizontalAlignment="Left" Height="356" Margin="42.2,61,0,0" VerticalAlignment="Top" Width="260" Grid.Column="1" Grid.RowSpan="2" SelectedIndex="0"/>
-        <Label x:Name="label1" Content="Lista dostępnych ustaw:" HorizontalAlignment="Left" Margin="42.2,21,0,0" VerticalAlignment="Top" Width="260" FontSize="20" Grid.Column="1" Height="37"/>
-        <Button x:Name="button_szukajUstawy" Content="Szukaj" HorizontalAlignment="Left" Margin="66,153.4,0,0" VerticalAlignment="Top" Width="182" Height="54" Click="button_szukajUstawy_Click" Grid.Row="1" Cursor="Hand" IsDefault="True"/>
-        <Button x:Name="button_kryteria" Content="Dodaj kryteria" HorizontalAlignment="Left" Margin="181,69.4,0,0" VerticalAlignment="Top" Width="102" Height="34" Click="button_dodaj_click" Grid.Row="1" Cursor="Hand"/>
-        <Label x:Name="label" Content="Wybrane kryteria:" HorizontalAlignment="Left" Margin="39,21,0,0" VerticalAlignment="Top" Height="34" Width="238" FontSize="20"/>
-        <ListView x:Name="ConditionsListView" HorizontalAlignment="Left" Height="192" Margin="39,61,0,0" VerticalAlignment="Top" Width="244" Grid.RowSpan="2">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Klucz" DisplayMemberBinding="{Binding Key}" Width="115" />
-                    <GridViewColumn Header="Wartosc" DisplayMemberBinding="{Binding Value}" Width="125"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
-        <Button x:Name="button_usun" Content="Usun kryteria" HorizontalAlignment="Left" Margin="39,69.4,0,0" Grid.Row="1" VerticalAlignment="Top" Width="99" Height="34" Click="button_usun_Click"/>
-        <Button x:Name="button_szczegoly" Content="Pokaz szczegoly" Grid.Column="1" HorizontalAlignment="Left" Margin="111.2,234.4,0,0" Grid.Row="1" VerticalAlignment="Top" Width="117" RenderTransformOrigin="-0.221,0.135" Height="38" Click="button_szczegoly_Click" IsEnabled="False" ToolTip="Pokazuje szczegoly wybranej ustawy i umozliwia zapis do PDF"/>
-    </Grid>
+    <Window.Background>
+        <ImageBrush>
+            <ImageBrush.ImageSource>
+                <BitmapImage UriSource="/Resources/tlo.jpg"/>
+            </ImageBrush.ImageSource>
+        </ImageBrush>
+    </Window.Background>
+    <Button x:Name="button" HorizontalAlignment="Left" Margin="237,389,0,0" VerticalAlignment="Top" Width="163" Height="71" Click="button_Click" BorderThickness="0,0,0,1" Foreground="{x:Null}">
+        <Image Source="/Resources/BlueSquareButton.png" Height="71"/>
+    </Button>
 </Window>
