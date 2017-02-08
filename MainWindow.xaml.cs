@@ -15,9 +15,11 @@ namespace Prawnotron
             InitializeComponent();
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
+        private void button_continue_Click(object sender, RoutedEventArgs e)
         {
-
+            KryteriaWindow k = new KryteriaWindow();
+            k.Show();
+            this.Close();
         }
     }
 }

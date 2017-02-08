@@ -109,6 +109,16 @@ namespace Prawnotron.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap prawo {
+            get {
+                object obj = ResourceManager.GetObject("prawo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap pytajnik {
             get {
                 object obj = ResourceManager.GetObject("pytajnik", resourceCulture);

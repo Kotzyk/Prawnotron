@@ -13,7 +13,9 @@
             </ImageBrush.ImageSource>
         </ImageBrush>
     </Window.Background>
-    <Button x:Name="button" HorizontalAlignment="Left" Margin="237,389,0,0" VerticalAlignment="Top" Width="163" Height="71" Click="button_Click" BorderThickness="0,0,0,1" Foreground="{x:Null}">
-        <Image Source="/Resources/BlueSquareButton.png" Height="71"/>
+    <Button x:Name="button_continue" Content="Kontynuuj" HorizontalAlignment="Left" Margin="262,410,0,0" VerticalAlignment="Top" Width="132" Height="51" FontWeight="Bold" Click="button_continue_Click">
+        <Button.Background>
+            <ImageBrush ImageSource="Resources/BlueSquareButton.png"/>
+        </Button.Background>
     </Button>
 </Window>
