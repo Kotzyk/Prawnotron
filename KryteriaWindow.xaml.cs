@@ -106,11 +106,11 @@ namespace Prawnotron
                 MessageBox.Show(ex.Message);
             }
         }
-
-        /*private async void button_getContent_Click(object sender, RoutedEventArgs e)
+        /*
+       private async void button_getContent_Click(object sender, RoutedEventArgs e)
         {
             Ustawa ustawa = _listaUst.ElementAt(listBox_listaUstaw.SelectedIndex);
-            button_getContent.IsEnabled = false;
+            button.IsEnabled = false;
             _listaTytulow.Clear();
             await ApiClient.GetContentAsync(ustawa);
               
@@ -119,7 +119,7 @@ namespace Prawnotron
               {
                   statue.Zapisz(page);
               } 
-        }*/
+              */
+        }
         
-    }
-}
+ }

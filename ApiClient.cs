@@ -217,7 +217,8 @@ namespace Prawnotron
             }
             
             Debug.WriteLine("zapisuję");
-            //File.WriteAllText($"../../tresci http/tresc_{ustawa.Dokument_Id}.html", tresc);
+            File.WriteAllText($"../../tresci http/tresc_{ustawa.Dokument_Id}.html", tresc);
+            ustawa.Tresc_path = $"../../tresci http/tresc_{ustawa.Dokument_Id}.html";
             Debug.WriteLine("zapisane");
             #endregion
         }

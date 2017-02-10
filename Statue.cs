@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Text;
 using HtmlAgilityPack;
-using iTextSharp;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 
@@ -86,16 +84,8 @@ namespace Prawnotron
             return sb.ToString();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-      
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="doc"></param>
-        /// <param name="a"></param>
-          public string Wyszukaj(string doc, string a)
+
+          private string Wyszukaj(string doc, string a)
         {
             var list = new List<string>();
             string trescArt ="";
@@ -106,7 +96,6 @@ namespace Prawnotron
             string d = Convert.ToString(num2);  //numer artykulu konwertujemy na string by utworzyc wzor2 koncowy
             string pattern2 = "Art. " + d;
             while (true)
-
             {
                 int b = doc.IndexOf(pattern, index, StringComparison.Ordinal);//szukamy indexu wzoru1 w tekscie
                 if (b == -1)
@@ -120,48 +109,35 @@ namespace Prawnotron
             foreach (string line in list)
             {
                 trescArt += line;
-                Debug.WriteLine(line);  //tutaj juz testowalysmy jak dziala
-            }
+                }
             return trescArt;
         }
-        
-            public void Zapisz(string textToSave)
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="textToSave"></param>
+        public void Zapisz(string textToSave)
+        {
+            var fs = new FileStream("../../artykuly/artykul.pdf", FileMode.Create, FileAccess.Write,
+                FileShare.None);
+            var doc = new Document();
+            PdfWriter writer = PdfWriter.GetInstance(doc, fs); //Po co to jest?
+
+            using (doc)
             {
-
-                FileStream fs = new FileStream("../../artykuly/artykul.pdf", FileMode.Create, FileAccess.Write, FileShare.None);
-
-
-                Document doc = new Document();
-
-                PdfWriter writer = PdfWriter.GetInstance(doc, fs);
-
                 doc.Open();
 
-                doc.Add(new Paragraph(textToSave));
-
-                doc.Close();
-            }
-     
-        /*static void Main(string[] args)
+                var ustawaString = "";
+                foreach (string page in Pages)
                 {
-                    
-                   Statue ustawa = new Statue("strona_3.html");
-                    string p;
-                    string ustawaString = "";
-                        foreach (var page in ustawa.pages)
-                    {
-                        
-                        p = Convert.ToString(page);
-                        ustawaString+= p;
-        
-                    }
-                
-                    ustawaString=ustawa.Wyszukaj(ustawaString, "44");
-            ustawa.Zapisz(ustawaString);
-                 
-        
-                Console.ReadKey();
+                    string p = Convert.ToString(page);
+                    ustawaString += p;
                 }
-            }*/
+                ustawaString = Wyszukaj(ustawaString, textToSave);
+                doc.Add(new Paragraph(ustawaString));
+                //Czy to zapisuje?
+            }
+        }
     }
 }

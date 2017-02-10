@@ -31,7 +31,7 @@
         <Label x:Name="label_Syg" Content="Sygnatura:" HorizontalAlignment="Left" Margin="10,244,0,0" VerticalAlignment="Top" Height="46" Width="75" FontWeight="Bold"/>
         <TextBox x:Name="textBox_Syg" HorizontalAlignment="Left" Height="58" Margin="98,249,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="143" IsReadOnly="True" BorderThickness="0"/>
         <Button x:Name="button_Zapisz" Grid.ColumnSpan="2" Content="Zapisz do PDF" HorizontalAlignment="Left" Height="42" Margin="191,104.8,0,0" VerticalAlignment="Top" Width="122" Click="button_Zapisz_Click" Grid.Row="1"/>
-        <TextBox x:Name="textBox_arty" HorizontalAlignment="Left" Height="44" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="482" Margin="10,47,0,0" Grid.Row="1" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="textBox_arty" HorizontalAlignment="Left" Height="44" TextWrapping="Wrap" Text =""  VerticalAlignment="Top" Width="482" Margin="10,47,0,0" Grid.Row="1" Grid.ColumnSpan="2"/>
         <Label x:Name="label_arty" Content="Wpisz jakie artykuły chcesz zapisać:" HorizontalAlignment="Left" Margin="10,12.8,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="29" Width="326" FontWeight="Bold" Grid.Row="1"/>
     </Grid>
 </Window>
