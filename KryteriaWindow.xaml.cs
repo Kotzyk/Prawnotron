@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows;
-using System.Windows.Controls;
 using System.Linq;
-using HtmlAgilityPack;
 
 namespace Prawnotron
 {
@@ -106,20 +104,5 @@ namespace Prawnotron
                 MessageBox.Show(ex.Message);
             }
         }
-        /*
-       private async void button_getContent_Click(object sender, RoutedEventArgs e)
-        {
-            Ustawa ustawa = _listaUst.ElementAt(listBox_listaUstaw.SelectedIndex);
-            button.IsEnabled = false;
-            _listaTytulow.Clear();
-            await ApiClient.GetContentAsync(ustawa);
-              
-              Statue statue = new Statue($"../../tresci http/tresc_{ustawa.Dokument_Id}.html");
-              foreach (string page in statue.Pages)
-              {
-                  statue.Zapisz(page);
-              } 
-              */
-        }
-        
+     }
  }

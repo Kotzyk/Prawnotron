@@ -20,7 +20,6 @@ namespace Prawnotron
     /// <summary>
     /// Łączność z API poprzez <see cref="HttpClient" /> i pobieranie szczegółów oraz treści ustaw. <seealso cref="Ustawa" /><seealso cref="Ustawa.ParseUstawa" />
     /// </summary>
-    [SuppressMessage("ReSharper", "UnusedMember.Local")]
     public static class ApiClient
     {
         static readonly HttpClient Client = new HttpClient();
@@ -128,16 +127,28 @@ namespace Prawnotron
                         if (i < (podustawy.Length - 1))
                             temp = temp + "}}";
                         podustawy[i] = temp;
-                    } //podustawy wczytuje poprawnie
+                    } 
                     Parallel.For(0, podustawy.Length, i =>
                     {
                         using (TextWriter sw = new StreamWriter($"../../Json/Ustawa_{i + 1}.json"))
                         {
-                            sw.Write(podustawy[i]);
+                            try
+                            {
+                                sw.Write(podustawy[i]);
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine(e);
+                                throw;
+                            }
+                            finally
+                            {
+                                Ustawa u = Ustawa.ParseUstawa(i + 1);
+                                wynikiList.Add(u);
+                            }
                         }
-                        Ustawa u = Ustawa.ParseUstawa(i + 1);
-                        wynikiList.Add(u);
-                    }); //Todo: exception handling
+                        
+                    }); 
                 }
                 else
                 {
@@ -150,9 +161,6 @@ namespace Prawnotron
             }
             return wynikiList;
         }
-
-        //TODO: poprawne szukanie po ?q=
-
 
         /// <summary>
         /// Asynchronicznie zapisuje treść wybranej ustawy z API do pliku <c>HTML</c> do dalszej obróbki.
@@ -173,33 +181,30 @@ namespace Prawnotron
             try
             {
                 //responseMessage = await Client.GetAsync(adres);
-                Debug.WriteLine("tu jestem XD");
+                
             }
             catch (HttpRequestException e)
             {
                 MessageBox.Show(e.Message);
                 
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Debug.WriteLine(e.Message);
+                MessageBox.Show(ex.Message);
             }
             
             #region DownloadRegion
-            Debug.WriteLine("teraz tutaj");
+            
             while (responseMessage.IsSuccessStatusCode)
             {
-                Debug.WriteLine("XD");
                 using(WebClient client2 = new WebClient())
                 {
                     try
                     {
-                        //client2.DownloadFile(adres, $"../../tresci http/tresc_{ustawa.Dokument_Id}.html");
-                            tresc += client2.DownloadString(adres);
-                            counter++;
+                        client2.DownloadFile(adres, $"../../tresci http/tresc_{ustawa.Dokument_Id}.html");
+                        tresc += client2.DownloadString(adres);
+                        counter++;
 
-                            responseMessage = await Client.GetAsync(adres);
-                        
                     }
                     catch (HttpRequestException hEx)
                     {
@@ -211,15 +216,17 @@ namespace Prawnotron
                     }
                     catch (Exception e)
                     {
-                       MessageBox.Show(e.Message);
+                        MessageBox.Show(e.Message);
                     }
-               }
+                    finally
+                    {
+                        responseMessage = await Client.GetAsync(adres);
+                    }
+                }
             }
             
-            Debug.WriteLine("zapisuję");
             File.WriteAllText($"../../tresci http/tresc_{ustawa.Dokument_Id}.html", tresc);
             ustawa.Tresc_path = $"../../tresci http/tresc_{ustawa.Dokument_Id}.html";
-            Debug.WriteLine("zapisane");
             #endregion
         }
     }
